@@ -131,16 +131,20 @@ function buildShape(name, n, r) {
     const podium = boxes([[-2.2, 2.2, -2.7, -2.2, -1.0, 1.0]]);
     for (let i = 0; i < n; i++) {
       const k = i % 100;
-      if (k < 62) {
+      if (k < 64) {
         let x, y, o, hi;
         do { y = yB + r() * (yT - yB); o = outer(y); hi = inner(y); x = (r() * 2 - 1) * o; } while (Math.abs(x) < hi);
         if (r() < 0.4) y = Math.round(y / 0.11) * 0.11;
         const zf = D * Math.sqrt(Math.max(0, 1 - (x / o) ** 2)) * (1 - 0.3 * (y - yB) / (yT - yB));
         set(i, x, y, (r() < 0.5 ? -1 : 1) * zf);
-      } else if (k < 72) {
+      } else if (k < 74) {
         const y = yS + r() * (yT - yS), s = r() < 0.5 ? -1 : 1, edge = r() < 0.5 ? inner(y) : outer(y);
         set(i, s * edge, y, (r() - 0.5) * 0.3);
-      } else if (k < 78) { const y = 1.98 + r() * 0.13, hw = inner(2.03); set(i, (r() * 2 - 1) * hw, y, (r() - 0.5) * 0.25); }
+      } else if (k < 78) {
+        // Skybridge: a thin span right under the tips, joining the two arms across the top of the opening.
+        const y = 2.3 + r() * 0.05, hw = inner(y) + 0.04;
+        set(i, (r() * 2 - 1) * hw, y, (r() - 0.5) * 0.09);
+      }
       else if (k < 88) { const p = podium(); set(i, p[0], p[1], p[2]); }
       else ground(i, -2.7, 4.0);
     }
