@@ -325,6 +325,7 @@ function onFormClick(e) {
   else if (field === 'notSure') { F.notSure = !F.notSure; if (F.notSure) { F.groups = []; F.majors = []; } }
   else {
     F[field] = id;
+    if (field === 'uniTarget' && id === 'no') F.unis = [];
     if (field === 'stage') {
       const map = { g11: 'bachelor', g12: 'bachelor', hs_grad: 'bachelor', uni_student: 'bachelor', bachelor: 'master', master: 'phd' };
       if (!F.degree && map[id]) F.degree = map[id];
@@ -338,7 +339,8 @@ function onFormInput(e) {
   const el = e.target;
   if (el.id === 'unisearch') {
     const q = el.value.trim().toLowerCase();
-    $$('[data-search]').forEach((c) => { c.hidden = q && !c.dataset.search.includes(q); });
+    $$('[data-search]').forEach((c) => { c.hidden = !!q && !c.dataset.search.includes(q); });
+    $$('.subchips[data-type]').forEach((g) => { g.hidden = !g.querySelector('[data-search]:not([hidden])'); });
     return;
   }
   if (!el.name) return;
@@ -413,11 +415,14 @@ function waLink(id, number) {
   return n ? `https://wa.me/${n}?text=${encodeURIComponent(waText(id))}` : '';
 }
 
+let sending = false;
 async function submit(e) {
   e.preventDefault();
+  if (sending) return;
   if (F.step !== STEP_COUNT - 1) { next(); return; }
   const err = validate(); if (err) { showErr(err); return; }
   const btn = $('[data-next]'); btn.disabled = true; btn.textContent = t('f_sending');
+  sending = true;
   leadId = leadId || makeId();
   const payload = {
     lead_id: leadId, lang, who: F.who, stage: F.stage, degree: F.degree, grades: F.grades, english: F.english,
@@ -438,6 +443,7 @@ async function submit(e) {
       result = await res.json();
     } catch (_) { result = { ok: false }; }
   } else result = { ok: true, preview: true };
+  sending = false;
   if (result.ok) {
     track('Lead');
     F.step = STEP_COUNT; save();
@@ -516,27 +522,50 @@ function sceneOpts(s) {
   if (s.id === 'hero' && m) Object.assign(base, { y: 1.55, scale: 0.68 });
   return Object.assign(base, { mode: s.mode, yaw: s.yaw || 0, flipX: s.shape === 'car' && lang === 'en' ? -1 : 1 });
 }
+let currentId = '';
 function setActive(s) {
+  currentId = s.id;
   if (world) world.morph(s.shape, sceneOpts(s));
   $$('[data-rail]').forEach((a) => a.classList.toggle('on', a.dataset.rail === s.id));
   document.body.dataset.scene = s.id;
   document.body.dataset.rail = s.st ? 'on' : 'off';
 }
 
+// The one rule for the 3D story: the section under the middle of the screen decides the shape.
+function sectionAtCentre() {
+  // At the very bottom the form can't reach the middle of the screen, but it is what the visitor is looking at.
+  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
+    const last = SCENES[SCENES.length - 1]; if (document.getElementById(last.id)) return last;
+  }
+  const y = window.innerHeight / 2;
+  let best = null, bestD = Infinity;
+  for (const s of SCENES) {
+    const el = document.getElementById(s.id); if (!el) continue;
+    const r = el.getBoundingClientRect();
+    if (r.top <= y && r.bottom > y) return s;
+    const d = Math.min(Math.abs(r.top - y), Math.abs(r.bottom - y));
+    if (d < bestD) { bestD = d; best = s; }
+  }
+  return best;
+}
+function syncScene(force = false) {
+  const s = sectionAtCentre();
+  if (s && (force || s.id !== currentId)) setActive(s);
+  // Phone CTA: visible once the hero is behind you, hidden again when the form itself is on screen.
+  const hero = $('#hero'), form = $('#start'), cta = $('#mobile-cta');
+  if (hero && form && cta) {
+    const vh = window.innerHeight;
+    cta.classList.toggle('show', hero.getBoundingClientRect().bottom < vh * 0.8 && form.getBoundingClientRect().top > vh * 0.9);
+  }
+}
+let syncQueued = false;
+function queueSync() { if (syncQueued) return; syncQueued = true; requestAnimationFrame(() => { syncQueued = false; syncScene(); }); }
+
 function setupScroll() {
   triggers.forEach((tr) => tr.kill()); triggers = [];
   const ST = window.ScrollTrigger;
-  if (!ST || !window.gsap) {
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const s = SCENES.find((x) => x.id === e.target.id); if (s) setActive(s); } }), { rootMargin: '-45% 0px -45% 0px' });
-    SCENES.forEach((s) => { const el = document.getElementById(s.id); if (el) io.observe(el); });
-    $$('.reveal').forEach((el) => el.classList.add('in'));
-    return;
-  }
+  if (!ST || !window.gsap) { $$('.reveal').forEach((el) => el.classList.add('in')); return; }
   window.gsap.registerPlugin(ST);
-  SCENES.forEach((s) => {
-    const el = document.getElementById(s.id); if (!el) return;
-    triggers.push(ST.create({ trigger: el, start: 'top 55%', end: 'bottom 45%', onToggle: (self) => { if (self.isActive) setActive(s); } }));
-  });
   const side = lang === 'ar' ? -1 : 1;
   const car = $('#s2');
   if (car) triggers.push(ST.create({ trigger: car, start: 'top bottom', end: 'bottom top', onUpdate: (self) => { if (world && !isMobile()) world.drive(-side * (1 - self.progress * 2) * 1.6); } }));
@@ -548,8 +577,6 @@ function setupScroll() {
     if (reduced) { el.classList.add('in'); return; }
     triggers.push(ST.create({ trigger: el, start: 'top 85%', once: true, onEnter: () => el.classList.add('in') }));
   });
-  const formEl = $('#start'), heroEl = $('#hero'), cta = $('#mobile-cta');
-  triggers.push(ST.create({ trigger: heroEl, start: 'bottom 80%', endTrigger: formEl, end: 'top 90%', onToggle: (self) => cta.classList.toggle('show', self.isActive) }));
   ST.refresh();
 }
 
@@ -575,11 +602,15 @@ function render() {
 function bind() {
   document.addEventListener('click', (e) => {
     if (e.target.closest('[data-lang]')) {
-      const y = window.scrollY / Math.max(1, document.body.scrollHeight);
+      // Stay on the same section, at the same point inside it, after the page re-renders in the other language.
+      const here = sectionAtCentre(), el = here && document.getElementById(here.id);
+      const frac = el ? (window.innerHeight / 2 - el.getBoundingClientRect().top) / Math.max(1, el.offsetHeight) : 0;
       lang = lang === 'ar' ? 'en' : 'ar'; store.set('rihla_lang', lang);
       render();
-      window.scrollTo(0, y * document.body.scrollHeight);
-      const active = SCENES.find((s) => s.id === document.body.dataset.scene); if (active) setActive(active);
+      const el2 = here && document.getElementById(here.id);
+      if (el2) window.scrollTo(0, el2.getBoundingClientRect().top + window.scrollY + frac * el2.offsetHeight - window.innerHeight / 2);
+      if (window.ScrollTrigger) window.ScrollTrigger.update();
+      syncScene(true);
       return;
     }
     const tab = e.target.closest('.tab');
@@ -593,25 +624,43 @@ function bind() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target.closest('#leadform') && e.target.tagName === 'INPUT' && F.step < STEP_COUNT - 1) { e.preventDefault(); next(); }
   });
-  let w = window.innerWidth;
+  window.addEventListener('scroll', queueSync, { passive: true });
+  let w = window.innerWidth, h = window.innerHeight;
   window.addEventListener('resize', () => {
-    if (Math.abs(window.innerWidth - w) < 40) return; w = window.innerWidth;
-    const active = SCENES.find((s) => s.id === document.body.dataset.scene); if (active) setActive(active);
+    if (Math.abs(window.innerWidth - w) < 40 && Math.abs(window.innerHeight - h) < 120) return;
+    w = window.innerWidth; h = window.innerHeight;
+    syncScene(true);
   });
+  window.addEventListener('hashchange', () => setTimeout(() => syncScene(), 60));
+}
+
+// A saved draft may point at items the sheet has since hidden: drop them so they are never sent.
+function pruneDraft() {
+  const has = (list, id) => list.some((x) => x.id === id);
+  F.groups = F.groups.filter((g) => has(C.majorGroups, g));
+  F.majors = F.majors.filter((m) => has(C.majors, m));
+  F.unis = F.unis.filter((u) => has(C.universities, u));
+  ['who', 'stage', 'degree', 'grades', 'english', 'budget', 'intake', 'recognition', 'funding', 'city', 'mode', 'time'].forEach((k) => {
+    const list = { mode: 'mode', time: 'time' }[k] || k;
+    if (F[k] && !C.options.some((o) => o.list === list && o.id === F[k])) F[k] = '';
+  });
+  if (F.consultant && F.consultant !== 'any' && !has(C.team, F.consultant)) F.consultant = '';
 }
 
 async function boot() {
   $('#preloader-text').textContent = t('loading');
   await loadConfig();
+  pruneDraft();
   render();
   bind();
   const canvas = $('#world');
   world = createWorld(canvas, { reduced });
-  setActive(SCENES[0]);
+  window.__rihla = { debug: () => (world ? world.debug() : null), scene: () => document.body.dataset.scene, lang: () => lang };
+  syncScene(true);
   const pre = $('#preloader');
   pre.classList.add('done');
   setTimeout(() => pre.remove(), 900);
-  if (location.hash) { const el = document.getElementById(location.hash.slice(1)); if (el) setTimeout(() => el.scrollIntoView(), 50); }
+  if (location.hash) { const el = document.getElementById(location.hash.slice(1)); if (el) setTimeout(() => { el.scrollIntoView(); syncScene(true); }, 50); }
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

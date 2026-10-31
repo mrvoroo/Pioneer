@@ -403,6 +403,24 @@ export function createWorld(canvas, { reduced = false } = {}) {
     uniforms.uProgress.value = reduced ? 1 : 0;
   }
 
+  // The plane is a child of the globe group, so it is oriented in the group's own space:
+  // nose (+x) along the route towards Kuala Lumpur, top (+y) away from the globe, wings along +z.
+  const basis = new THREE.Matrix4(), fwd = new THREE.Vector3(), upv = new THREE.Vector3(), side = new THREE.Vector3();
+  function placePlane(op) {
+    planeMat.opacity = op;
+    plane.visible = op > 0.01;
+    if (!plane.visible) return;
+    const tt = Math.min(0.995, Math.max(0.005, rider.t));
+    const p = arcPoint(tt), q = arcPoint(tt + 0.005);
+    fwd.subVectors(q, p).normalize();
+    upv.copy(p).normalize();
+    upv.addScaledVector(fwd, -upv.dot(fwd)).normalize();
+    side.crossVectors(fwd, upv).normalize();
+    basis.makeBasis(fwd, upv, side);
+    plane.position.copy(p);
+    plane.quaternion.setFromRotationMatrix(basis);
+  }
+
   const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
   let running = true;
   function frame() {
@@ -424,16 +442,7 @@ export function createWorld(canvas, { reduced = false } = {}) {
     uniforms.uOpacity.value = state.opacity;
 
     rider.op += ((rider.on ? 1 : 0) - rider.op) * 0.08;
-    planeMat.opacity = rider.op * state.opacity;
-    plane.visible = rider.op > 0.01;
-    if (plane.visible) {
-      const tt = Math.min(0.999, Math.max(0.001, rider.t));
-      const p = arcPoint(tt), q = arcPoint(Math.min(1, tt + 0.01));
-      plane.position.copy(p);
-      plane.up.copy(p).normalize();
-      plane.lookAt(q);
-      plane.rotateY(-Math.PI / 2);
-    }
+    placePlane(rider.op * state.opacity);
 
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
@@ -451,18 +460,32 @@ export function createWorld(canvas, { reduced = false } = {}) {
   const renderStatic = () => {
     group.position.set(goal.x + goal.drive, goal.y, 0); group.scale.set(goal.scale * goal.flipX, goal.scale, goal.scale);
     group.rotation.set(0.1, goal.mode === 'spin' ? 0.5 : goal.yaw, 0);
-    uniforms.uOpacity.value = goal.opacity; renderer.render(scene, camera);
+    uniforms.uOpacity.value = goal.opacity;
+    rider.op = rider.on ? 1 : 0; placePlane(rider.op * goal.opacity);
+    renderer.render(scene, camera);
   };
+  let current = 'towers';
 
   return {
     morph(name, opts = {}) {
-      if (shapes[name] && shapes[name] !== target) retarget(shapes[name]);
+      if (shapes[name] && shapes[name] !== target) { retarget(shapes[name]); current = name; }
       Object.assign(goal, { mode: 'spin', yaw: 0, drive: 0, flipX: 1 }, opts);
       if ('dir' in opts) uniforms.uDir.value = opts.dir;
       rider.on = name === 'globe';
       if (reduced) { uniforms.uProgress.value = 1; renderStatic(); }
     },
     drive(v) { goal.drive = v; if (reduced) renderStatic(); },
-    fly(t) { rider.t = t; }
+    fly(t) { rider.t = Math.min(1, Math.max(0, Number(t) || 0)); if (reduced) renderStatic(); },
+    // Read-only snapshot for automated tests: which shape is showing, where it sits,
+    // and whether the plane's nose points along its direction of travel on screen.
+    debug() {
+      plane.updateMatrixWorld(true);
+      const nose = new THREE.Vector3(1, 0, 0).transformDirection(plane.matrixWorld);
+      const a = arcPoint(Math.min(0.995, Math.max(0.005, rider.t))), b = arcPoint(Math.min(1, Math.max(0.005, rider.t) + 0.005));
+      group.updateMatrixWorld(true);
+      const travel = b.applyMatrix4(group.matrixWorld).sub(a.applyMatrix4(group.matrixWorld)).normalize();
+      return { shape: current, goal: Object.assign({}, goal), state: Object.assign({}, state), progress: uniforms.uProgress.value,
+        plane: { visible: plane.visible, t: rider.t, noseAlongTravel: nose.dot(travel) } };
+    }
   };
 }
