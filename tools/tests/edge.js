@@ -14,7 +14,7 @@ async function page(b, { lang = 'ar', w = 1440, h = 900, reduced = false } = {})
   return p;
 }
 const state = (p) => p.evaluate(() => ({ scene: window.__rihla.scene(), lang: window.__rihla.lang(), dbg: window.__rihla.debug(), dir: document.documentElement.dir, centre: (() => { const y = innerHeight / 2; const el = [...document.querySelectorAll('section[data-scene]')].find(e => { const r = e.getBoundingClientRect(); return r.top <= y && r.bottom > y; }); return el && el.id; })() }));
-const goTo = (p, id) => p.evaluate((id) => document.getElementById(id).scrollIntoView({ block: 'center' }), id);
+const goTo = (p, id) => p.evaluate((id) => document.getElementById(id).scrollIntoView({ block: 'center', behavior: 'instant' }), id);
 (async () => {
   const b = await chromium.launch({ args: ['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'] });
 
@@ -82,6 +82,14 @@ const goTo = (p, id) => p.evaluate((id) => document.getElementById(id).scrollInt
     const s2 = await state(p), d2 = s2.dbg.goal.drive;
     const facing = s2.dbg.goal.flipX < 0 ? 1 : -1; // nose is -x unless mirrored
     ok(Math.sign(d2 - d1) === facing, `${lang} car moves ${d2 - d1 > 0 ? 'right' : 'left'} but faces ${facing > 0 ? 'right' : 'left'}`);
+    await p.context().close();
+  }
+
+  // 4b. Only the car moves sideways; every other scene has zero drive offset.
+  for (const lang of ['ar', 'en']) {
+    const p = await page(b, { lang });
+    await p.goto(URL, { waitUntil: 'networkidle' }); await p.waitForTimeout(800);
+    for (const id of IDS.filter((x) => x !== 's2')) { await goTo(p, id); await p.waitForTimeout(250); const s = await state(p); ok(s.dbg.goal.drive === 0, `${lang} ${id}: drive offset ${s.dbg.goal.drive} leaks into a non-car scene`); }
     await p.context().close();
   }
 

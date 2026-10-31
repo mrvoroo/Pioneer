@@ -141,8 +141,8 @@ function buildShape(name, n, r) {
         const y = yS + r() * (yT - yS), s = r() < 0.5 ? -1 : 1, edge = r() < 0.5 ? inner(y) : outer(y);
         set(i, s * edge, y, (r() - 0.5) * 0.3);
       } else if (k < 78) {
-        // Skybridge: a thin span right under the tips, joining the two arms across the top of the opening.
-        const y = 2.3 + r() * 0.05, hw = inner(y) + 0.04;
+        // Skybridge: a thin span along the very top, joining the tips of the two arms.
+        const y = yT - 0.07 + r() * 0.07, hw = outer(y);
         set(i, (r() * 2 - 1) * hw, y, (r() - 0.5) * 0.09);
       }
       else if (k < 88) { const p = podium(); set(i, p[0], p[1], p[2]); }

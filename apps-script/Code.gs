@@ -104,23 +104,23 @@ const SEED = {
    "en": "عربي"
   },
   "loading": {
-   "ar": "نجهّز رحلتك…",
+   "ar": "نُجهّز رحلتك…",
    "en": "Preparing your journey…"
   },
   "hero_kicker": {
-   "ar": "مستشاريك للدراسة في ماليزيا · Pioneer الرياض",
+   "ar": "مستشاروك للدراسة في ماليزيا · Pioneer الرياض",
    "en": "Your study-in-Malaysia advisors · Pioneer Riyadh"
   },
   "hero_title_a": {
-   "ar": "من فصلك في الرياض…",
-   "en": "From your classroom in Riyadh…"
+   "ar": "من مقاعد الدراسة في الرياض…",
+   "en": "From your studies in Riyadh…"
   },
   "hero_title_b": {
    "ar": "إلى جامعة عالمية في ماليزيا.",
    "en": "to a world-class university in Malaysia."
   },
   "hero_sub": {
-   "ar": "نمشي معك خطوة بخطوة: نختار التخصص والجامعة المعترف فيها، نجهّز أوراقك وفيزتك، ونستقبلك في المطار. والاستشارة الأولى مجانية.",
+   "ar": "نرافقك خطوة بخطوة: نختار معك التخصص والجامعة المعترف بها، ونُعدّ أوراقك وتأشيرتك، ونستقبلك في المطار. والاستشارة الأولى مجانية.",
    "en": "We walk with you step by step: the right major and a recognised university, your papers and visa, and a welcome at the airport. The first consultation is free."
   },
   "hero_cta": {
@@ -128,12 +128,12 @@ const SEED = {
    "en": "Book your free consultation"
   },
   "hero_cta2": {
-   "ar": "شوف الرحلة",
+   "ar": "تعرّف على الرحلة",
    "en": "See the journey"
   },
   "stat1_n": {
-   "ar": "10",
-   "en": "10"
+   "ar": "10+",
+   "en": "10+"
   },
   "stat1_l": {
    "ar": "سنوات خبرة",
@@ -144,7 +144,7 @@ const SEED = {
    "en": "4,000+"
   },
   "stat2_l": {
-   "ar": "طالب انقبلوا في جامعات ماليزيا",
+   "ar": "طالب قُبلوا في جامعات ماليزيا",
    "en": "students admitted to Malaysian universities"
   },
   "stat3_n": {
@@ -152,7 +152,7 @@ const SEED = {
    "en": "50+"
   },
   "stat3_l": {
-   "ar": "جامعة معتمدين لديها",
+   "ar": "جامعة نحن وكلاء معتمدون لديها",
    "en": "universities we are certified agents for"
   },
   "stat4_n": {
@@ -168,7 +168,7 @@ const SEED = {
    "en": "Figures from Pioneer Education Services"
   },
   "scroll_hint": {
-   "ar": "انزل وابدأ الرحلة",
+   "ar": "مرّر لأسفل لتبدأ الرحلة",
    "en": "Scroll to start the journey"
   },
   "st1": {
@@ -200,11 +200,11 @@ const SEED = {
    "en": "Stop 01 · School"
   },
   "s1_title": {
-   "ar": "آخر سنة… وألف سؤال.",
+   "ar": "السنة الأخيرة… وألف سؤال.",
    "en": "Final year… and a thousand questions."
   },
   "s1_body": {
-   "ar": "طبيعي تحتار. القرار كبير، والمعلومات كثيرة ومتضاربة. هذي الأسئلة نسمعها كل يوم، وكلها لها جواب واضح.",
+   "ar": "من الطبيعي أن تشعر بالحيرة؛ فالقرار كبير والمعلومات كثيرة ومتضاربة. هذه أسئلة نسمعها كل يوم، ولكلٍّ منها إجابة واضحة.",
    "en": "Feeling lost is normal. It is a big decision and the information out there is messy. We hear these questions every day, and each one has a clear answer."
   },
   "s1_q1": {
@@ -216,15 +216,15 @@ const SEED = {
    "en": "Which university should I pick?"
   },
   "s1_q3": {
-   "ar": "الشهادة تتعادل في السعودية؟",
+   "ar": "هل تُعادَل الشهادة في السعودية؟",
    "en": "Will my degree be recognised in Saudi Arabia?"
   },
   "s1_q4": {
-   "ar": "كم التكلفة الحقيقية؟",
+   "ar": "ما التكلفة الحقيقية؟",
    "en": "What is the real cost?"
   },
   "s1_q5": {
-   "ar": "كيف أقنع أهلي؟",
+   "ar": "كيف أُقنع أهلي؟",
    "en": "How do I convince my parents?"
   },
   "s2_kicker": {
@@ -232,11 +232,11 @@ const SEED = {
    "en": "Stop 02 · On the way to us"
   },
   "s2_title": {
-   "ar": "استشارة مجانية، بالطريقة اللي تريحك.",
+   "ar": "استشارة مجانية، بالطريقة التي تناسبك.",
    "en": "A free consultation, the way that suits you."
   },
   "s2_body": {
-   "ar": "في جلسة وحدة تطلع بخطة واضحة: التخصص، جامعتين أو ثلاث تناسب نسبتك وميزانيتك، تكلفة تقريبية، وموعد البداية.",
+   "ar": "في جلسة واحدة تخرج بخطة واضحة: التخصص، وجامعتان أو ثلاث تناسب معدلك وميزانيتك، وتكلفة تقريبية، وموعد البدء.",
    "en": "One session gives you a clear plan: the major, two or three universities that fit your grades and budget, an estimated cost and a start date."
   },
   "s2_m1": {
@@ -244,7 +244,7 @@ const SEED = {
    "en": "Visit our office in Olaya"
   },
   "s2_m2": {
-   "ar": "اجتماع أونلاين معك ومع أهلك",
+   "ar": "اجتماع عبر الإنترنت معك ومع أسرتك",
    "en": "Online meeting with you and your family"
   },
   "s2_m3": {
@@ -256,15 +256,15 @@ const SEED = {
    "en": "WhatsApp chat"
   },
   "s3_kicker": {
-   "ar": "المحطة 03 · نجهّزك",
+   "ar": "المحطة 03 · نُجهّزك",
    "en": "Stop 03 · We get you ready"
   },
   "s3_title": {
-   "ar": "ملفك علينا، من أوله لآخره.",
+   "ar": "ملفك مسؤوليتنا، من بدايته إلى نهايته.",
    "en": "Your file is on us, start to finish."
   },
   "s3_body": {
-   "ar": "أنت تركّز على اختيارك، واحنا نتابع الأوراق والجامعة والفيزا.",
+   "ar": "ركّز أنت على اختيارك، ونحن نتابع الأوراق والجامعة والتأشيرة.",
    "en": "You focus on your choice; we handle the paperwork, the university and the visa."
   },
   "s3_p1t": {
@@ -272,7 +272,7 @@ const SEED = {
    "en": "Shortlist"
   },
   "s3_p1": {
-   "ar": "جامعات وتخصصات نتأكد إنها في قائمة «سفير» لوزارة التعليم.",
+   "ar": "جامعات وتخصصات نتحقق من وجودها في قائمة «سفير» لوزارة التعليم.",
    "en": "Universities and majors we check against the Ministry of Education Safeer list."
   },
   "s3_p2t": {
@@ -280,7 +280,7 @@ const SEED = {
    "en": "Attestation"
   },
   "s3_p2": {
-   "ar": "شهادتك من التعليم، ثم الخارجية، ثم السفارة الماليزية.",
+   "ar": "تُوثَّق شهادتك من وزارة التعليم، ثم وزارة الخارجية، ثم السفارة الماليزية.",
    "en": "Your certificate through Education, Foreign Affairs, then the Malaysian Embassy."
   },
   "s3_p3t": {
@@ -288,15 +288,15 @@ const SEED = {
    "en": "Admission"
   },
   "s3_p3": {
-   "ar": "نقدّم للجامعة ونتابع لين يوصلك خطاب القبول.",
+   "ar": "نتقدّم إلى الجامعة ونتابع الطلب حتى يصلك خطاب القبول.",
    "en": "We apply and follow up until your offer letter arrives."
   },
   "s3_p4t": {
-   "ar": "الفيزا",
+   "ar": "التأشيرة",
    "en": "Visa"
   },
   "s3_p4": {
-   "ar": "ملفك مع EMGS لين يصدر خطاب الموافقة على الفيزا (VAL).",
+   "ar": "نتابع ملفك لدى EMGS حتى يصدر خطاب الموافقة على التأشيرة (VAL).",
    "en": "Your file with EMGS until the Visa Approval Letter (VAL) is issued."
   },
   "s4_kicker": {
@@ -304,11 +304,11 @@ const SEED = {
    "en": "Stop 04 · Take-off"
   },
   "s4_title": {
-   "ar": "من الرياض إلى كوالالمبور… وما تكون لحالك.",
+   "ar": "من الرياض إلى كوالالمبور… ولن تكون وحدك.",
    "en": "Riyadh to Kuala Lumpur… and never on your own."
   },
   "s4_body": {
-   "ar": "حوالي 8 ساعات طيران، وأول ما تنزل تلقى فريق Pioneer في انتظارك.",
+   "ar": "نحو 8 ساعات من الطيران، وفور وصولك تجد فريق Pioneer في استقبالك.",
    "en": "About 8 hours in the air, and the Pioneer team is waiting when you land."
   },
   "s4_i1": {
@@ -320,16 +320,16 @@ const SEED = {
    "en": "Malaysian SIM card"
   },
   "s4_i3": {
-   "ar": "توصيل للسكن ومساعدة في إيجاده",
+   "ar": "المساعدة في إيجاد السكن والتوصيل إليه",
    "en": "Help finding housing, and a ride there"
   },
   "s4_i4": {
-   "ar": "مساعدة في التسجيل والكشف الطبي",
+   "ar": "المساعدة في التسجيل والفحص الطبي",
    "en": "Help with registration and the medical check"
   },
   "s4_i5": {
-   "ar": "فريق على الأرض في سايبرجايا",
-   "en": "A team on the ground in Cyberjaya"
+   "ar": "فريق Pioneer في ماليزيا يتابعك طوال دراستك",
+   "en": "The Pioneer team in Malaysia, with you throughout your studies"
   },
   "s4_from": {
    "ar": "الرياض",
@@ -344,27 +344,27 @@ const SEED = {
    "en": "Stop 05 · University"
   },
   "s5_title": {
-   "ar": "أربعة أنواع جامعات… واحد منها لك.",
+   "ar": "أربعة أنواع من الجامعات… أحدها يناسبك.",
    "en": "Four kinds of university… one of them is yours."
   },
   "s5_body": {
-   "ar": "الدراسة بالإنجليزي، والجامعات معتمدة من هيئة الاعتماد الماليزية (MQA). اضغط على النوع وشوف الفرق.",
+   "ar": "الدراسة باللغة الإنجليزية، والبرامج معتمدة من هيئة المؤهلات الماليزية (MQA). اضغط على النوع لترى الفرق.",
    "en": "Teaching is in English and programmes are accredited by the Malaysian Qualifications Agency (MQA). Tap a type to see the difference."
   },
   "s5_f1n": {
-   "ar": "#56",
-   "en": "#56"
+   "ar": "56",
+   "en": "56th"
   },
   "s5_f1": {
-   "ar": "جامعة مالايا عالميًا في تصنيف QS 2027",
-   "en": "Universiti Malaya worldwide, QS 2027"
+   "ar": "ترتيب جامعة مالايا عالميًا في تصنيف QS لعام 2027",
+   "en": "Universiti Malaya's world ranking in QS 2027"
   },
   "s5_f2n": {
    "ar": "~$6,000",
    "en": "~$6,000"
   },
   "s5_f2": {
-   "ar": "متوسط الرسوم السنوية للبكالوريوس",
+   "ar": "متوسط الرسوم السنوية لمرحلة البكالوريوس",
    "en": "average yearly bachelor tuition"
   },
   "s5_f3n": {
@@ -372,7 +372,7 @@ const SEED = {
    "en": "12"
   },
   "s5_f3": {
-   "ar": "شهر Graduate Pass بعد التخرج",
+   "ar": "شهرًا من تصريح Graduate Pass للعمل بعد التخرج",
    "en": "months of Graduate Pass after you graduate"
   },
   "s5_examples": {
@@ -392,15 +392,15 @@ const SEED = {
    "en": "Stop 06 · Graduation"
   },
   "s6_title": {
-   "ar": "ترجع بشهادة… وبشخصية جديدة.",
+   "ar": "تعود بشهادة… وبشخصية جديدة.",
    "en": "You come back with a degree… and a new you."
   },
   "s6_body": {
-   "ar": "شهادة عالمية، إنجليزي قوي، وخبرة عيش واستقلال تبان عليك في أول مقابلة شغل. وتقدر تبقى سنة في ماليزيا بعد التخرج تدوّر على وظيفة عن طريق الـ Graduate Pass.",
+   "ar": "شهادة عالمية، ولغة إنجليزية قوية، وتجربة استقلال تظهر في أول مقابلة عمل. ويمكنك البقاء في ماليزيا عامًا بعد التخرج للبحث عن وظيفة من خلال تصريح Graduate Pass.",
    "en": "A global degree, strong English and the independence that shows in your first job interview. You can also stay a year after graduating to look for work on the Graduate Pass."
   },
   "s6_cta": {
-   "ar": "خلّنا نرسم رحلتك",
+   "ar": "دعنا نرسم رحلتك",
    "en": "Let us map your journey"
   },
   "p_kicker": {
@@ -408,43 +408,43 @@ const SEED = {
    "en": "For parents"
   },
   "p_title": {
-   "ar": "أسئلتك في محلّها، وهذي إجاباتنا.",
+   "ar": "أسئلتكم في محلّها، وهذه إجاباتنا.",
    "en": "Your questions are fair. Here are our answers."
   },
   "p_body": {
-   "ar": "تقدر تحضر الاستشارة مع ابنك أو بنتك، في المكتب أو أونلاين.",
+   "ar": "يمكنكم حضور الاستشارة مع ابنكم أو ابنتكم، في المكتب أو عبر الإنترنت.",
    "en": "You are welcome to join the consultation with your son or daughter, in the office or online."
   },
   "p_q1": {
-   "ar": "هل الشهادة معترف فيها في السعودية؟",
+   "ar": "هل الشهادة معترف بها في السعودية؟",
    "en": "Is the degree recognised in Saudi Arabia?"
   },
   "p_a1": {
-   "ar": "نرشّح فقط جامعات وتخصصات موجودة في قائمة الجامعات الموصى بها في منصة «سفير» لوزارة التعليم، ونراجع القائمة قبل كل تقديم لأنها تتحدث كل سنة.",
+   "ar": "لا نرشّح إلا الجامعات والتخصصات المدرجة في قائمة الجامعات الموصى بها على منصة «سفير» التابعة لوزارة التعليم، ونراجع القائمة قبل كل تقديم لأنها تُحدَّث سنويًا.",
    "en": "We only recommend universities and majors on the Ministry of Education recommended list (Safeer platform), and we check it before every application because it is updated yearly."
   },
   "p_q2": {
-   "ar": "هل ماليزيا آمنة لابني أو بنتي؟",
+   "ar": "هل ماليزيا آمنة لابني أو ابنتي؟",
    "en": "Is Malaysia safe for my son or daughter?"
   },
   "p_a2": {
-   "ar": "بلد أغلبيته مسلمين، والأكل حلال في كل مكان، والمساجد داخل الجامعات. وفريق Pioneer يستقبل الطالب في المطار ويساعده في السكن ويبقى على تواصل معه.",
+   "ar": "ماليزيا بلد أغلب سكانه مسلمون، والطعام الحلال متوفر في كل مكان، والمساجد موجودة داخل الجامعات. ويستقبل فريق Pioneer الطالب في المطار، ويساعده في إيجاد السكن، ويبقى على تواصل معه.",
    "en": "A Muslim-majority country with halal food everywhere and mosques on campus. The Pioneer team meets students at the airport, helps with housing and stays in touch."
   },
   "p_q3": {
-   "ar": "ليش ماليزيا وليس بريطانيا أو أستراليا؟",
+   "ar": "لماذا ماليزيا وليس بريطانيا أو أستراليا؟",
    "en": "Why Malaysia and not the UK or Australia?"
   },
   "p_a3": {
-   "ar": "فيه فروع لجامعات بريطانية وأسترالية في ماليزيا تعطي نفس شهادة الجامعة الأم (برامج 3+0)، بتكلفة أقل بكثير، وأقرب للبيت، وفي بيئة مسلمة.",
+   "ar": "توجد في ماليزيا فروع لجامعات بريطانية وأسترالية تمنح الشهادة نفسها التي تمنحها الجامعة الأم (برامج 3+0)، بتكلفة أقل بكثير، وأقرب إلى الوطن، وفي بيئة مسلمة.",
    "en": "British and Australian universities have branch campuses in Malaysia that award the same degree as home (3+0 programmes), at a far lower cost, closer to home, in a Muslim environment."
   },
   "p_q4": {
-   "ar": "نسبته أو مستوى الإنجليزي عنده ضعيف، وش الحل؟",
+   "ar": "ماذا لو كان المعدل أو مستوى اللغة الإنجليزية منخفضًا؟",
    "en": "What if the grades or English level are low?"
   },
   "p_a4": {
-   "ar": "فيه سنة تأسيسية (Foundation) وكورسات إنجليزي مكثفة قبل البكالوريوس، والجامعات الخاصة شروطها أمرن. نختار المسار المناسب في الاستشارة.",
+   "ar": "تتوفر سنة تأسيسية (Foundation) ودورات مكثفة في اللغة الإنجليزية قبل البكالوريوس، كما أن شروط القبول في الجامعات الخاصة أكثر مرونة. ونحدد المسار المناسب خلال الاستشارة.",
    "en": "There are foundation years and intensive English courses before the bachelor, and private universities have more flexible entry. We pick the right path in the consultation."
   },
   "p_q5": {
@@ -452,7 +452,7 @@ const SEED = {
    "en": "How much does the consultation cost?"
   },
   "p_a5": {
-   "ar": "الاستشارة الأولى مجانية بالكامل، وبدون أي التزام.",
+   "ar": "الاستشارة الأولى مجانية بالكامل، ودون أي التزام.",
    "en": "The first consultation is completely free, with no commitment."
   },
   "t_kicker": {
@@ -460,11 +460,11 @@ const SEED = {
    "en": "Your team"
   },
   "t_title": {
-   "ar": "ناس تعرفهم بالاسم، مو رقم في كول سنتر.",
+   "ar": "مستشارون تعرفهم بالاسم، لا مجرد رقم في مركز اتصال.",
    "en": "People you know by name, not a call-centre number."
   },
   "t_body": {
-   "ar": "مستشارون في مكتب Pioneer بالرياض. اختر المستشار اللي تحب يتابع معك.",
+   "ar": "مستشارون في مكتب Pioneer بالرياض. اختر المستشار الذي تفضّل أن يتابع معك.",
    "en": "Consultants at the Pioneer office in Riyadh. Choose who you would like to follow up with you."
   },
   "t_whatsapp": {
@@ -476,11 +476,11 @@ const SEED = {
    "en": "Start your journey"
   },
   "f_title": {
-   "ar": "دقيقتين… ونرسم لك الطريق.",
+   "ar": "دقيقتان… ونرسم لك الطريق.",
    "en": "Two minutes… and we map out your path."
   },
   "f_body": {
-   "ar": "جاوب على كم سؤال، ونتواصل معك لتحديد موعد استشارتك المجانية.",
+   "ar": "أجب عن بضعة أسئلة، وسنتواصل معك لتحديد موعد استشارتك المجانية.",
    "en": "Answer a few questions and we will get in touch to set up your free consultation."
   },
   "f_step": {
@@ -504,47 +504,47 @@ const SEED = {
    "en": "Send and start my journey"
   },
   "f_sending": {
-   "ar": "جاري الإرسال…",
+   "ar": "جارٍ الإرسال…",
    "en": "Sending…"
   },
   "f_q_who": {
-   "ar": "مين يعبّي النموذج؟",
+   "ar": "من يملأ النموذج؟",
    "en": "Who is filling in this form?"
   },
   "f_q_stage": {
-   "ar": "وين وصلت دراسيًا؟",
+   "ar": "ما مرحلتك الدراسية الحالية؟",
    "en": "Where are you in your studies?"
   },
   "f_q_degree": {
-   "ar": "وش الدرجة اللي تبيها؟",
+   "ar": "ما الدرجة التي تريدها؟",
    "en": "Which degree are you after?"
   },
   "f_q_grades": {
-   "ar": "النسبة التقريبية",
+   "ar": "المعدل التقريبي",
    "en": "Approximate grade"
   },
   "f_q_english": {
-   "ar": "مستوى الإنجليزي",
+   "ar": "مستوى اللغة الإنجليزية",
    "en": "English level"
   },
   "f_q_majors": {
-   "ar": "وش التخصصات اللي في بالك؟",
+   "ar": "ما التخصصات التي تفكر فيها؟",
    "en": "Which fields are you thinking about?"
   },
   "f_h_majors": {
-   "ar": "اختر مجال واحد، وبتطلع لك التخصصات تحته. تقدر تختار أكثر من تخصص داخل المجال.",
+   "ar": "اختر مجالًا واحدًا لتظهر لك التخصصات التابعة له، ويمكنك اختيار أكثر من تخصص داخل المجال.",
    "en": "Pick one field to open its majors. You can choose more than one major within it."
   },
   "f_q_unitarget": {
-   "ar": "عندك جامعة معيّنة في بالك؟",
+   "ar": "هل لديك جامعة محددة في ذهنك؟",
    "en": "Do you have a specific university in mind?"
   },
   "f_h_unis": {
-   "ar": "اختر جامعة أو أكثر من الجامعات اللي نتعامل معها.",
+   "ar": "اختر جامعة أو أكثر من الجامعات التي نتعامل معها.",
    "en": "Pick one or more of the universities we work with."
   },
   "f_uni_none": {
-   "ar": "ولا يهمك، بنرشّح لك الأنسب في الاستشارة.",
+   "ar": "لا بأس، سنرشّح لك الأنسب خلال الاستشارة.",
    "en": "No problem, we will suggest the best fit in your consultation."
   },
   "f_uni_search": {
@@ -556,11 +556,11 @@ const SEED = {
    "en": "Approximate yearly tuition budget"
   },
   "f_q_intake": {
-   "ar": "متى تبي تبدأ؟",
+   "ar": "متى تريد أن تبدأ؟",
    "en": "When would you like to start?"
   },
   "f_q_recognition": {
-   "ar": "هل مهم إن الشهادة تتعادل في السعودية؟",
+   "ar": "هل يهمك معادلة الشهادة في السعودية؟",
    "en": "Does Saudi recognition of the degree matter?"
   },
   "f_q_funding": {
@@ -588,7 +588,7 @@ const SEED = {
    "en": "05XXXXXXXX"
   },
   "f_wa_same": {
-   "ar": "نفس الرقم عليه واتساب",
+   "ar": "هذا الرقم مسجّل في واتساب",
    "en": "This number is on WhatsApp"
   },
   "f_whatsapp": {
@@ -608,19 +608,19 @@ const SEED = {
    "en": "City"
   },
   "f_q_mode": {
-   "ar": "طريقة الاستشارة اللي تفضّلها",
+   "ar": "طريقة الاستشارة المفضّلة",
    "en": "Preferred consultation format"
   },
   "f_q_time": {
-   "ar": "أفضل وقت نكلّمك فيه",
+   "ar": "أفضل وقت للتواصل معك",
    "en": "Best time to call"
   },
   "f_q_consultant": {
-   "ar": "تحب مين يتابع معك؟",
+   "ar": "من تفضّل أن يتابع معك؟",
    "en": "Who would you like to follow up with you?"
   },
   "f_consent": {
-   "ar": "أوافق على استخدام بياناتي للتواصل معي بخصوص الدراسة في ماليزيا، حسب",
+   "ar": "أوافق على استخدام بياناتي للتواصل معي بشأن الدراسة في ماليزيا، وفق",
    "en": "I agree to my data being used to contact me about studying in Malaysia, under the"
   },
   "f_privacy_link": {
@@ -628,23 +628,23 @@ const SEED = {
    "en": "privacy policy"
   },
   "f_err_pick": {
-   "ar": "اختر إجابة عشان نكمّل.",
+   "ar": "يُرجى اختيار إجابة للمتابعة.",
    "en": "Pick an answer to continue."
   },
   "f_err_majors": {
-   "ar": "اختر تخصصًا واحدًا على الأقل، أو «لسه مو متأكد».",
+   "ar": "يُرجى اختيار تخصص واحد على الأقل، أو «لم أحدد بعد».",
    "en": "Pick at least one major, or \"Not sure yet\"."
   },
   "f_err_unis": {
-   "ar": "اختر جامعة واحدة على الأقل.",
+   "ar": "يُرجى اختيار جامعة واحدة على الأقل.",
    "en": "Pick at least one university."
   },
   "f_err_name": {
-   "ar": "اكتب اسمك.",
+   "ar": "يُرجى كتابة اسمك.",
    "en": "Please enter your name."
   },
   "f_err_phone": {
-   "ar": "اكتب رقم جوال صحيح، مثل 0512345678.",
+   "ar": "يُرجى كتابة رقم جوال صحيح، مثل 0512345678.",
    "en": "Enter a valid mobile number, e.g. 0512345678."
   },
   "f_err_email": {
@@ -652,15 +652,15 @@ const SEED = {
    "en": "That email does not look right."
   },
   "f_err_consent": {
-   "ar": "نحتاج موافقتك عشان نقدر نتواصل معك.",
+   "ar": "نحتاج إلى موافقتك لنتمكن من التواصل معك.",
    "en": "We need your consent to contact you."
   },
   "f_not_sure": {
-   "ar": "لسه مو متأكد",
+   "ar": "لم أحدد بعد",
    "en": "Not sure yet"
   },
   "f_yes": {
-   "ar": "إيه، عندي",
+   "ar": "نعم، لديّ جامعة",
    "en": "Yes, I do"
   },
   "f_no": {
@@ -676,7 +676,7 @@ const SEED = {
    "en": "We have your request, {name}!"
   },
   "ok_body": {
-   "ar": "رقم طلبك {id}. بنتواصل معك خلال {hours} ساعة لتحديد موعد استشارتك المجانية.",
+   "ar": "رقم طلبك {id}. سنتواصل معك خلال {hours} ساعة لتحديد موعد استشارتك المجانية.",
    "en": "Your request number is {id}. We will contact you within {hours} hours to set up your free consultation."
   },
   "ok_book": {
@@ -684,7 +684,7 @@ const SEED = {
    "en": "Book your slot now"
   },
   "ok_wa": {
-   "ar": "كمّل معنا على واتساب",
+   "ar": "تابع معنا عبر واتساب",
    "en": "Continue on WhatsApp"
   },
   "ok_summary": {
@@ -692,15 +692,15 @@ const SEED = {
    "en": "Your choices"
   },
   "ok_preview": {
-   "ar": "وضع المعاينة: النموذج غير مربوط بالشيت بعد، والبيانات ما انحفظت.",
-   "en": "Preview mode: the form is not connected to the sheet yet, so nothing was saved."
+   "ar": "وضع المعاينة: النموذج غير مرتبط بقاعدة البيانات بعد، ولم تُحفظ البيانات.",
+   "en": "Preview mode: the form is not connected to the database yet, so nothing was saved."
   },
   "err_send": {
-   "ar": "ما قدرنا نرسل طلبك الحين. أرسله لنا على واتساب وبنرد عليك.",
+   "ar": "تعذّر إرسال طلبك الآن. أرسله إلينا عبر واتساب وسنرد عليك.",
    "en": "We could not send your request right now. Send it on WhatsApp and we will reply."
   },
   "wa_intro": {
-   "ar": "السلام عليكم، أبي أبدأ رحلتي للدراسة في ماليزيا.",
+   "ar": "السلام عليكم، أرغب في بدء رحلتي للدراسة في ماليزيا.",
    "en": "Hello, I would like to start my study-in-Malaysia journey."
   },
   "footer_office": {
@@ -732,15 +732,15 @@ const SEED = {
    "en": "Privacy policy"
   },
   "privacy_body": {
-   "ar": "نجمع البيانات اللي تكتبها في النموذج (الاسم، الجوال، البريد، واختياراتك الدراسية) ومصدر زيارتك، فقط عشان نتواصل معك بخصوص الدراسة في ماليزيا ونقدّم لك الاستشارة. نحفظها في جدول خاص لا يطّلع عليه إلا فريق الاستشارات، ولا نبيعها أو نشاركها مع أي طرف آخر بدون موافقتك، باستثناء الجامعة اللي تختار التقديم لها. تقدر تطلب الاطلاع على بياناتك أو تعديلها أو حذفها في أي وقت عن طريق الواتساب أو البريد. نلتزم بنظام حماية البيانات الشخصية في المملكة العربية السعودية.",
-   "en": "We collect what you type in the form (name, phone, email and study choices) and where your visit came from, only to contact you about studying in Malaysia and to give you a consultation. It is kept in a private sheet that only the consulting team can see. We do not sell it or share it with anyone without your consent, except the university you choose to apply to. You can ask to see, correct or delete your data at any time by WhatsApp or email. We follow the Saudi Personal Data Protection Law."
+   "ar": "نجمع البيانات التي تكتبها في النموذج (الاسم، والجوال، والبريد الإلكتروني، واختياراتك الدراسية) ومصدر زيارتك، فقط للتواصل معك بشأن الدراسة في ماليزيا وتقديم الاستشارة لك. نحفظ هذه البيانات في قاعدة بيانات خاصة لا يطّلع عليها إلا فريق الاستشارات، ولا نبيعها ولا نشاركها مع أي طرف آخر دون موافقتك، باستثناء الجامعة التي تختار التقديم إليها. يمكنك طلب الاطلاع على بياناتك أو تعديلها أو حذفها في أي وقت عبر واتساب أو البريد الإلكتروني. ونلتزم بنظام حماية البيانات الشخصية في المملكة العربية السعودية.",
+   "en": "We collect what you type in the form (name, phone, email and study choices) and where your visit came from, only to contact you about studying in Malaysia and to give you a consultation. It is kept in a private database that only the consulting team can see. We do not sell it or share it with anyone without your consent, except the university you choose to apply to. You can ask to see, correct or delete your data at any time by WhatsApp or email. We follow the Saudi Personal Data Protection Law."
   },
   "privacy_close": {
    "ar": "إغلاق",
    "en": "Close"
   },
   "consent_text": {
-   "ar": "نستخدم أدوات قياس بسيطة لنعرف أي الإعلانات توصلك لنا. توافق؟",
+   "ar": "نستخدم أدوات قياس بسيطة لمعرفة الإعلانات التي أوصلتك إلينا. هل توافق؟",
    "en": "We use simple measurement tools to know which ads bring you here. Do you agree?"
   },
   "consent_yes": {
@@ -757,18 +757,18 @@ const SEED = {
    "id": "public",
    "ar": "حكومية",
    "en": "Public",
-   "desc_ar": "جامعات تملكها الدولة، أقوى تصنيفًا وأقل تكلفة، وشروط القبول أعلى.",
+   "desc_ar": "جامعات تملكها الدولة، وهي الأعلى تصنيفًا والأقل تكلفة، وشروط القبول فيها أعلى.",
    "desc_en": "State-owned, highest ranked and lowest cost, with higher entry requirements.",
    "cost_ar": "حوالي 3,500–5,500$ سنويًا",
    "cost_en": "about $3,500–5,500 a year",
-   "fit_ar": "نسبة 80% فأعلى، وميزانية محدودة",
+   "fit_ar": "معدل 80% فأعلى، وميزانية محدودة",
    "fit_en": "80%+ grades and a tighter budget"
   },
   {
    "id": "glc",
    "ar": "شبه حكومية",
    "en": "Government-linked",
-   "desc_ar": "تملكها شركات حكومية كبرى مثل بتروناس وشركة الكهرباء، وقريبة جدًا من سوق العمل.",
+   "desc_ar": "تملكها شركات حكومية كبرى مثل بتروناس وشركة الكهرباء الوطنية، وهي قريبة جدًا من سوق العمل.",
    "desc_en": "Owned by major state companies such as Petronas and the national power company, and close to industry.",
    "cost_ar": "متوسطة",
    "cost_en": "mid-range",
@@ -779,22 +779,22 @@ const SEED = {
    "id": "private",
    "ar": "خاصة",
    "en": "Private",
-   "desc_ar": "خيارات واسعة ومواعيد بداية كثيرة في السنة، وشروط قبول أمرن.",
+   "desc_ar": "خيارات واسعة، ومواعيد بدء متعددة خلال العام، وشروط قبول أكثر مرونة.",
    "desc_en": "Wide choice, several intakes a year and more flexible entry.",
    "cost_ar": "متوسطها حوالي 6,000$ سنويًا",
    "cost_en": "around $6,000 a year on average",
-   "fit_ar": "نسبة 70% فأعلى، والتخصصات العملية",
+   "fit_ar": "معدل 70% فأعلى، والتخصصات التطبيقية",
    "fit_en": "70%+ grades and practical majors"
   },
   {
    "id": "branch",
    "ar": "فروع جامعات أجنبية",
    "en": "Foreign branch campuses",
-   "desc_ar": "جامعات بريطانية وأسترالية تعطي نفس شهادة الجامعة الأم، وأنت في ماليزيا.",
+   "desc_ar": "جامعات بريطانية وأسترالية تمنح الشهادة نفسها التي تمنحها الجامعة الأم، وأنت تدرس في ماليزيا.",
    "desc_en": "British and Australian universities awarding the same degree as their home campus.",
-   "cost_ar": "الأعلى، وأقل بكثير من الدراسة في بلد الجامعة",
+   "cost_ar": "الأعلى، لكنها أقل بكثير من الدراسة في بلد الجامعة الأم",
    "cost_en": "the highest, yet far below studying in the home country",
-   "fit_ar": "اللي يبي شهادة بريطانية أو أسترالية",
+   "fit_ar": "من يريد شهادة بريطانية أو أسترالية",
    "fit_en": "students who want a UK or Australian degree"
   }
  ],
@@ -1350,25 +1350,25 @@ const SEED = {
   {
    "list": "who",
    "id": "graduate",
-   "ar": "خريج أبي دراسات عليا",
+   "ar": "خريج أرغب في الدراسات العليا",
    "en": "Graduate, after a master's or PhD"
   },
   {
    "list": "stage",
    "id": "g11",
-   "ar": "ثاني ثانوي",
+   "ar": "الصف الثاني الثانوي",
    "en": "Grade 11"
   },
   {
    "list": "stage",
    "id": "g12",
-   "ar": "ثالث ثانوي",
+   "ar": "الصف الثالث الثانوي",
    "en": "Grade 12"
   },
   {
    "list": "stage",
    "id": "hs_grad",
-   "ar": "خريج ثانوي",
+   "ar": "خريج الثانوية",
    "en": "High-school graduate"
   },
   {
@@ -1380,13 +1380,13 @@ const SEED = {
   {
    "list": "stage",
    "id": "bachelor",
-   "ar": "عندي بكالوريوس",
+   "ar": "حاصل على البكالوريوس",
    "en": "I hold a bachelor's"
   },
   {
    "list": "stage",
    "id": "master",
-   "ar": "عندي ماجستير",
+   "ar": "حاصل على الماجستير",
    "en": "I hold a master's"
   },
   {
@@ -1422,7 +1422,7 @@ const SEED = {
   {
    "list": "degree",
    "id": "english",
-   "ar": "كورس إنجليزي",
+   "ar": "دورة لغة إنجليزية",
    "en": "English course"
   },
   {
@@ -1452,7 +1452,7 @@ const SEED = {
   {
    "list": "grades",
    "id": "na",
-   "ar": "لسه ما طلعت",
+   "ar": "لم تصدر بعد",
    "en": "Not out yet"
   },
   {
@@ -1470,13 +1470,13 @@ const SEED = {
   {
    "list": "english",
    "id": "good",
-   "ar": "كويس بدون شهادة",
+   "ar": "جيد دون شهادة",
    "en": "Good, no certificate"
   },
   {
    "list": "english",
    "id": "weak",
-   "ar": "أحتاج كورس",
+   "ar": "أحتاج إلى دورة",
    "en": "I need a course"
   },
   {
@@ -1506,7 +1506,7 @@ const SEED = {
   {
    "list": "budget",
    "id": "unknown",
-   "ar": "لسه ما حددنا",
+   "ar": "لم نحدد بعد",
    "en": "Not decided yet"
   },
   {
@@ -1530,31 +1530,31 @@ const SEED = {
   {
    "list": "intake",
    "id": "unsure",
-   "ar": "مو متأكد",
+   "ar": "غير متأكد",
    "en": "Not sure"
   },
   {
    "list": "recognition",
    "id": "yes",
-   "ar": "إيه، مهم جدًا",
+   "ar": "نعم، مهم جدًا",
    "en": "Yes, very"
   },
   {
    "list": "recognition",
    "id": "no",
-   "ar": "مو ضروري",
+   "ar": "ليس ضروريًا",
    "en": "Not essential"
   },
   {
    "list": "recognition",
    "id": "unsure",
-   "ar": "ما أدري",
+   "ar": "لا أعرف",
    "en": "I don't know"
   },
   {
    "list": "funding",
    "id": "self",
-   "ar": "على حسابي / حساب الأهل",
+   "ar": "على نفقتي أو نفقة الأسرة",
    "en": "Self or family funded"
   },
   {
@@ -1572,7 +1572,7 @@ const SEED = {
   {
    "list": "funding",
    "id": "unsure",
-   "ar": "مو متأكد",
+   "ar": "غير متأكد",
    "en": "Not sure"
   },
   {
@@ -1632,7 +1632,7 @@ const SEED = {
   {
    "list": "mode",
    "id": "online",
-   "ar": "اجتماع أونلاين",
+   "ar": "اجتماع عبر الإنترنت",
    "en": "Online meeting"
   },
   {

@@ -13,14 +13,16 @@ const url = process.argv[2] || (process.env.SITE_URL || 'http://localhost:8080/'
     await p.goto(url, { waitUntil: 'networkidle' }); await p.waitForTimeout(1200);
     const tag = `${lang} ${vp[0]}`;
     const check = async (id, how) => {
-      const d = await p.evaluate(() => ({ scene: window.__rihla.scene(), dbg: window.__rihla.debug() }));
+      const d = await p.evaluate(() => ({ scene: window.__rihla.scene(), dbg: window.__rihla.debug(), atBottom: scrollY + innerHeight >= document.documentElement.scrollHeight - 4 }));
       checks++;
+      // At the very bottom of the page the form takes over from the team section (same backdrop).
+      if (id === 'team' && d.scene === 'start' && d.dbg.shape === 'sky' && d.atBottom) return d;
       if (d.scene !== id || d.dbg.shape !== EXPECT[id]) fails.push(`${tag} ${how} ${id}: scene=${d.scene} shape=${d.dbg.shape} (want ${EXPECT[id]})`);
       return d;
     };
     // 1. Slow scroll down through every section (centered), then back up.
-    for (const id of IDS) { await p.evaluate((id) => document.getElementById(id).scrollIntoView({ block: 'center' }), id); await p.waitForTimeout(350); await check(id, 'down'); }
-    for (const id of [...IDS].reverse()) { await p.evaluate((id) => document.getElementById(id).scrollIntoView({ block: 'center' }), id); await p.waitForTimeout(350); await check(id, 'up'); }
+    for (const id of IDS) { await p.evaluate((id) => document.getElementById(id).scrollIntoView({ block: 'center', behavior: 'instant' }), id); await p.waitForTimeout(350); await check(id, 'down'); }
+    for (const id of [...IDS].reverse()) { await p.evaluate((id) => document.getElementById(id).scrollIntoView({ block: 'center', behavior: 'instant' }), id); await p.waitForTimeout(350); await check(id, 'up'); }
     // 2. Section top aligned (how anchor links land).
     for (const id of IDS) { await p.evaluate((id) => { const el = document.getElementById(id); window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'instant' }); }, id); await p.waitForTimeout(350); await check(id, 'top'); }
     // 3. Random jumps: after each, the shape must match the section under the viewport centre.
@@ -32,11 +34,17 @@ const url = process.argv[2] || (process.env.SITE_URL || 'http://localhost:8080/'
     }
     // 4. Plane: nose must point along travel while scrolling down through s4.
     const s4 = await p.evaluate(() => { const el = document.getElementById('s4'); return { top: el.offsetTop, h: el.offsetHeight }; });
+    const ts = [];
     for (let f = 0.2; f <= 0.8; f += 0.15) {
-      await p.evaluate((y) => window.scrollTo(0, y), s4.top + s4.h * f - vp[1] / 2); await p.waitForTimeout(500);
+      await p.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), s4.top + s4.h * f - vp[1] / 2); await p.waitForTimeout(500);
       const d = await p.evaluate(() => window.__rihla.debug()); checks++;
+      ts.push(d.plane.t);
       if (!d.plane.visible || d.plane.noseAlongTravel < 0.6) fails.push(`${tag} plane at ${f.toFixed(2)}: visible=${d.plane.visible} nose·travel=${d.plane.noseAlongTravel.toFixed(2)} t=${d.plane.t.toFixed(2)}`);
     }
+    checks++;
+    if (!(ts.every((v, i) => i === 0 || v > ts[i - 1] + 0.05) && ts[ts.length - 1] - ts[0] > 0.4)) fails.push(`${tag} plane does not fly forward with scroll: t=${ts.map(v => v.toFixed(2)).join(',')}`);
+    const fly = await p.evaluate(() => getComputedStyle(document.getElementById('s4')).getPropertyValue('--fly')); checks++;
+    if (!(Number(fly) > 0)) fails.push(`${tag} route card plane not moving: --fly=${fly}`);
     // 5. Shape sits on the side opposite the text (desktop) / above it (mobile).
     await p.evaluate(() => document.getElementById('s3').scrollIntoView({ block: 'center' })); await p.waitForTimeout(400);
     const g = (await p.evaluate(() => window.__rihla.debug())).goal; checks++;

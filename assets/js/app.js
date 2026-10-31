@@ -393,9 +393,9 @@ function next() {
 const labelsFor = (l) => ({
   who: optLabel('who', F.who, l), stage: optLabel('stage', F.stage, l), degree: optLabel('degree', F.degree, l), grades: optLabel('grades', F.grades, l), english: optLabel('english', F.english, l),
   major_groups: F.groups.map((g) => { const x = C.majorGroups.find((y) => y.id === g); return x ? x[l] || x.ar : g; }).join('، '),
-  majors: F.notSure ? (l === 'ar' ? 'لسه مو متأكد' : 'Not sure yet') : F.majors.map((m) => { const x = C.majors.find((y) => y.id === m); return x ? x[l] || x.ar : m; }).join('، '),
+  majors: F.notSure ? (l === 'ar' ? 'لم أحدد بعد' : 'Not sure yet') : F.majors.map((m) => { const x = C.majors.find((y) => y.id === m); return x ? x[l] || x.ar : m; }).join('، '),
   universities: F.unis.map((u) => { const x = C.universities.find((y) => y.id === u); return x ? (x.short) : u; }).join('، '),
-  uni_target: F.uniTarget === 'yes' ? (l === 'ar' ? 'نعم' : 'Yes') : (l === 'ar' ? 'لا، يحتاج ترشيح' : 'No, needs suggestions'),
+  uni_target: F.uniTarget === 'yes' ? (l === 'ar' ? 'نعم' : 'Yes') : (l === 'ar' ? 'لا، يحتاج إلى ترشيح' : 'No, needs suggestions'),
   budget: optLabel('budget', F.budget, l), intake: optLabel('intake', F.intake, l), recognition: optLabel('recognition', F.recognition, l), funding: optLabel('funding', F.funding, l),
   city: optLabel('city', F.city, l), consult_mode: optLabel('mode', F.mode, l), best_time: optLabel('time', F.time, l),
   preferred_consultant: F.consultant && F.consultant !== 'any' ? L(C.team.find((m) => m.id === F.consultant) || {}, 'name') : (l === 'ar' ? 'أي مستشار' : 'Anyone')
@@ -548,9 +548,27 @@ function sectionAtCentre() {
   }
   return best;
 }
+// Scroll-linked motion, measured straight from the layout: the car drives through its section,
+// the plane flies Riyadh -> Kuala Lumpur through its section, and the step line fills.
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+function progressOf(id, startAt, endAt) {
+  const el = document.getElementById(id); if (!el) return null;
+  const r = el.getBoundingClientRect(), vh = window.innerHeight;
+  // 0 when the top of the section reaches startAt (fraction of the viewport), 1 when its bottom reaches endAt.
+  return clamp01((vh * startAt - r.top) / Math.max(1, r.height + vh * (startAt - endAt)));
+}
+function updateMotion() {
+  const car = progressOf('s2', 1, 0), fly = progressOf('s4', 0.75, 0.25), fill = progressOf('s3', 0.65, 0.55);
+  const side = lang === 'ar' ? -1 : 1;
+  // Only the car scene drives sideways; every other shape stays put on its side of the page.
+  if (world) world.drive(car !== null && currentId === 's2' && !isMobile() ? -side * (1 - car * 2) * 1.6 : 0);
+  if (fly !== null) { if (world) world.fly(fly); $('#s4').style.setProperty('--fly', fly.toFixed(3)); }
+  if (fill !== null) $('#s3').style.setProperty('--fill', fill.toFixed(3));
+}
 function syncScene(force = false) {
   const s = sectionAtCentre();
   if (s && (force || s.id !== currentId)) setActive(s);
+  updateMotion();
   // Phone CTA: visible once the hero is behind you, hidden again when the form itself is on screen.
   const hero = $('#hero'), form = $('#start'), cta = $('#mobile-cta');
   if (hero && form && cta) {
@@ -571,13 +589,6 @@ function setupScroll() {
   const ST = window.ScrollTrigger;
   if (!ST || !window.gsap) { $$('.reveal').forEach((el) => el.classList.add('in')); return; }
   window.gsap.registerPlugin(ST);
-  const side = lang === 'ar' ? -1 : 1;
-  const car = $('#s2');
-  if (car) triggers.push(ST.create({ trigger: car, start: 'top bottom', end: 'bottom top', onUpdate: (self) => { if (world && !isMobile()) world.drive(-side * (1 - self.progress * 2) * 1.6); } }));
-  const s4 = $('#s4');
-  if (s4) triggers.push(ST.create({ trigger: s4, start: 'top 70%', end: 'bottom 30%', onUpdate: (self) => { if (world) world.fly(self.progress); s4.style.setProperty('--fly', self.progress.toFixed(3)); } }));
-  const s3 = $('#s3');
-  if (s3) triggers.push(ST.create({ trigger: s3, start: 'top 65%', end: 'bottom 55%', onUpdate: (self) => s3.style.setProperty('--fill', self.progress.toFixed(3)) }));
   $$('.reveal').forEach((el) => {
     if (reduced) { el.classList.add('in'); return; }
     triggers.push(ST.create({ trigger: el, start: 'top 85%', once: true, onEnter: () => el.classList.add('in') }));
