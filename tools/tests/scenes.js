@@ -22,10 +22,10 @@ const url = process.argv[2] || (process.env.SITE_URL || 'http://localhost:8080/'
     for (const id of IDS) { await p.evaluate((id) => document.getElementById(id).scrollIntoView({ block: 'center' }), id); await p.waitForTimeout(350); await check(id, 'down'); }
     for (const id of [...IDS].reverse()) { await p.evaluate((id) => document.getElementById(id).scrollIntoView({ block: 'center' }), id); await p.waitForTimeout(350); await check(id, 'up'); }
     // 2. Section top aligned (how anchor links land).
-    for (const id of IDS) { await p.evaluate((id) => { const el = document.getElementById(id); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY); }, id); await p.waitForTimeout(350); await check(id, 'top'); }
+    for (const id of IDS) { await p.evaluate((id) => { const el = document.getElementById(id); window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'instant' }); }, id); await p.waitForTimeout(350); await check(id, 'top'); }
     // 3. Random jumps: after each, the shape must match the section under the viewport centre.
     for (let k = 0; k < 25; k++) {
-      await p.evaluate(() => window.scrollTo(0, Math.random() * (document.body.scrollHeight - innerHeight)));
+      await p.evaluate(() => window.scrollTo({ top: Math.random() * (document.body.scrollHeight - innerHeight), behavior: 'instant' }));
       await p.waitForTimeout(300);
       const where = await p.evaluate((ids) => { const y = innerHeight / 2; return ids.find((id) => { const r = document.getElementById(id).getBoundingClientRect(); return r.top <= y && r.bottom >= y; }) || null; }, IDS);
       if (where) await check(where, 'random');

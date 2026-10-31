@@ -558,8 +558,13 @@ function syncScene(force = false) {
     cta.classList.toggle('show', hero.getBoundingClientRect().bottom < vh * 0.8 && form.getBoundingClientRect().top > vh * 0.9);
   }
 }
-let syncQueued = false;
-function queueSync() { if (syncQueued) return; syncQueued = true; requestAnimationFrame(() => { syncQueued = false; syncScene(); }); }
+// Scroll sync runs on plain timers (not animation frames), so it stays right even while the tab is in the background.
+let lastSync = 0, trailing = 0;
+function queueSync() {
+  const now = Date.now();
+  if (now - lastSync > 60) { lastSync = now; syncScene(); }
+  clearTimeout(trailing); trailing = setTimeout(() => { lastSync = Date.now(); syncScene(); }, 80);
+}
 
 function setupScroll() {
   triggers.forEach((tr) => tr.kill()); triggers = [];
@@ -632,6 +637,7 @@ function bind() {
     syncScene(true);
   });
   window.addEventListener('hashchange', () => setTimeout(() => syncScene(), 60));
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) syncScene(true); });
 }
 
 // A saved draft may point at items the sheet has since hidden: drop them so they are never sent.
