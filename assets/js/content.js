@@ -124,7 +124,7 @@ window.RIHLA_DEFAULTS = {
     f_q_grades: { ar: 'النسبة التقريبية', en: 'Approximate grade' },
     f_q_english: { ar: 'مستوى الإنجليزي', en: 'English level' },
     f_q_majors: { ar: 'وش التخصصات اللي في بالك؟', en: 'Which fields are you thinking about?' },
-    f_h_majors: { ar: 'اختر المجال، وبتطلع لك التخصصات تحته. تقدر تختار أكثر من واحد.', en: 'Pick a field to open its majors. You can choose more than one.' },
+    f_h_majors: { ar: 'اختر مجال واحد، وبتطلع لك التخصصات تحته. تقدر تختار أكثر من تخصص داخل المجال.', en: 'Pick one field to open its majors. You can choose more than one major within it.' },
     f_q_unitarget: { ar: 'عندك جامعة معيّنة في بالك؟', en: 'Do you have a specific university in mind?' },
     f_h_unis: { ar: 'اختر جامعة أو أكثر من الجامعات اللي نتعامل معها.', en: 'Pick one or more of the universities we work with.' },
     f_uni_none: { ar: 'ولا يهمك، بنرشّح لك الأنسب في الاستشارة.', en: 'No problem, we will suggest the best fit in your consultation.' },

@@ -236,6 +236,7 @@ const F = Object.assign({
   name: '', studentName: '', phone: '', waSame: true, whatsapp: '', email: '', city: '', mode: '', time: '', consultant: '', consent: false, hp: ''
 }, store.get('rihla_form') || {});
 if (F.step > 5) F.step = 0;
+if (F.groups.length > 1) { const g = F.groups[F.groups.length - 1]; F.groups = [g]; F.majors = F.majors.filter((m) => (DEF.majors.find((x) => x.id === m) || {}).group === g); }
 let leadId = '';
 const save = () => { const { hp, ...rest } = F; store.set('rihla_form', rest); };
 
@@ -311,8 +312,9 @@ function onFormClick(e) {
   if (b.hasAttribute('data-next') && b.type === 'button') { next(); return; }
   if (b.dataset.group) {
     const g = b.dataset.group;
-    if (F.groups.includes(g)) { F.groups = F.groups.filter((x) => x !== g); F.majors = F.majors.filter((m) => (C.majors.find((x) => x.id === m) || {}).group !== g); }
-    else { F.groups = [...F.groups, g]; F.notSure = false; }
+    // One field at a time: opening a field closes the other one and drops its majors.
+    if (F.groups.includes(g)) { F.groups = []; F.majors = []; }
+    else { F.groups = [g]; F.majors = F.majors.filter((m) => (C.majors.find((x) => x.id === m) || {}).group === g); F.notSure = false; }
     save(); renderForm();
     const sub = $(`[data-sub="${g}"]`); if (sub) sub.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
     return;

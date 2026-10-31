@@ -532,8 +532,8 @@ const SEED = {
    "en": "Which fields are you thinking about?"
   },
   "f_h_majors": {
-   "ar": "اختر المجال، وبتطلع لك التخصصات تحته. تقدر تختار أكثر من واحد.",
-   "en": "Pick a field to open its majors. You can choose more than one."
+   "ar": "اختر مجال واحد، وبتطلع لك التخصصات تحته. تقدر تختار أكثر من تخصص داخل المجال.",
+   "en": "Pick one field to open its majors. You can choose more than one major within it."
   },
   "f_q_unitarget": {
    "ar": "عندك جامعة معيّنة في بالك؟",
