@@ -1,5 +1,5 @@
 /**
- * Rihla Malaysia: the Google Sheet is both the leads database and the site's control panel.
+ * Study in Malaysia: the Google Sheet is both the leads database and the site's control panel.
  *
  * - doGet  ?action=config  -> the site reads texts, universities, majors, options, team and public settings.
  * - doPost (lead JSON)     -> one new row in "Leads", a lead score, an assigned consultant and an email alert.
@@ -30,7 +30,8 @@ const LEAD_COLUMNS = [
   ['funding', 'التمويل'], ['consult_mode', 'طريقة الاستشارة'], ['best_time', 'أفضل وقت'], ['preferred_consultant', 'المستشار المفضّل'],
   ['lang', 'لغة الموقع'], ['utm_source', 'المصدر'], ['utm_medium', 'الوسيط'], ['utm_campaign', 'الحملة'], ['utm_content', 'محتوى الإعلان'],
   ['ref', 'رمز الإحالة'], ['landing_page', 'صفحة الدخول'], ['referrer', 'الموقع المحيل'], ['device', 'الجهاز'],
-  ['consent', 'الموافقة'], ['consent_at', 'وقت الموافقة'], ['updated_at', 'آخر تحديث'], ['raw_json', 'البيانات الخام']
+  ['consent', 'الموافقة'], ['consent_at', 'وقت الموافقة'], ['updated_at', 'آخر تحديث'], ['raw_json', 'البيانات الخام'],
+  ['curriculum', 'نظام الشهادة الثانوية']
 ];
 
 // The config tabs: [sheet name, columns, Arabic description]. Seed rows come from the site's content.js.
@@ -42,7 +43,8 @@ const CONFIG_SHEETS = {
   MajorGroups: { cols: ['id', 'ar', 'en', 'icon', 'visible', 'order'], note: 'المجالات الكبيرة (الهندسة، الطب…).' },
   Majors: { cols: ['id', 'group', 'ar', 'en', 'visible', 'order'], note: 'التخصصات تحت كل مجال. group = id المجال.' },
   Options: { cols: ['list', 'id', 'ar', 'en', 'visible', 'order'], note: 'خيارات أسئلة النموذج (الميزانية، مواعيد البدء، المدن…).' },
-  Team: { cols: ['id', 'name_ar', 'name_en', 'role_ar', 'role_en', 'whatsapp', 'email', 'receives_leads', 'visible', 'order'], note: 'فريقك. receives_leads = نعم يعني يستلم عملاء بالتناوب.' }
+  Team: { cols: ['id', 'name_ar', 'name_en', 'role_ar', 'role_en', 'whatsapp', 'email', 'receives_leads', 'visible', 'order'], note: 'فريقك. receives_leads = نعم يعني يستلم عملاء بالتناوب.' },
+  Gallery: { cols: ['id', 'src', 'caption_ar', 'caption_en', 'visible', 'order'], note: 'صور معرض «من رحلات طلابنا». src = رابط مباشر للصورة (يبدأ بـ https).' }
 };
 const PUBLIC_SETTINGS = ['whatsapp_number', 'booking_url', 'office_map_url', 'instagram_url', 'youtube_url', 'snapchat_url', 'tiktok_url', 'ga4_id', 'meta_pixel_id', 'snap_pixel_id', 'response_promise_hours'];
 const SETTING_NOTES = {
@@ -72,8 +74,8 @@ const SEED = {
  },
  "texts": {
   "brand": {
-   "ar": "رحلة ماليزيا",
-   "en": "Malaysia Journey"
+   "ar": "الدراسة في ماليزيا",
+   "en": "Study in Malaysia"
   },
   "brand_sub": {
    "ar": "مستشارو Pioneer · الرياض",
@@ -108,8 +110,8 @@ const SEED = {
    "en": "Preparing your journey…"
   },
   "hero_kicker": {
-   "ar": "مستشاروك للدراسة في ماليزيا · Pioneer الرياض",
-   "en": "Your study-in-Malaysia advisors · Pioneer Riyadh"
+   "ar": "مستشارو الدراسة في ماليزيا · Pioneer الرياض",
+   "en": "Study-in-Malaysia advisors · Pioneer Riyadh"
   },
   "hero_title_a": {
    "ar": "من مقاعد الدراسة في الرياض…",
@@ -216,8 +218,8 @@ const SEED = {
    "en": "Which university should I pick?"
   },
   "s1_q3": {
-   "ar": "هل تُعادَل الشهادة في السعودية؟",
-   "en": "Will my degree be recognised in Saudi Arabia?"
+   "ar": "هل ستُعادَل شهادتي في بلدي؟",
+   "en": "Will my degree be recognised back home?"
   },
   "s1_q4": {
    "ar": "ما التكلفة الحقيقية؟",
@@ -272,16 +274,16 @@ const SEED = {
    "en": "Shortlist"
   },
   "s3_p1": {
-   "ar": "جامعات وتخصصات نتحقق من وجودها في قائمة «سفير» لوزارة التعليم.",
-   "en": "Universities and majors we check against the Ministry of Education Safeer list."
+   "ar": "نرشّح جامعات وتخصصات معتمدة تناسب أهدافك ومعدلك.",
+   "en": "Accredited universities and majors that fit your goals and grades."
   },
   "s3_p2t": {
    "ar": "التوثيق",
    "en": "Attestation"
   },
   "s3_p2": {
-   "ar": "تُوثَّق شهادتك من وزارة التعليم، ثم وزارة الخارجية، ثم السفارة الماليزية.",
-   "en": "Your certificate through Education, Foreign Affairs, then the Malaysian Embassy."
+   "ar": "نساعدك في توثيق شهاداتك، ونتأكد من أن جميع أوراقك سليمة ومكتملة.",
+   "en": "We help you attest your certificates and make sure every document is correct and complete."
   },
   "s3_p3t": {
    "ar": "القبول",
@@ -416,12 +418,12 @@ const SEED = {
    "en": "You are welcome to join the consultation with your son or daughter, in the office or online."
   },
   "p_q1": {
-   "ar": "هل الشهادة معترف بها في السعودية؟",
-   "en": "Is the degree recognised in Saudi Arabia?"
+   "ar": "هل الشهادة معترف بها في بلدي؟",
+   "en": "Will the degree be recognised in my country?"
   },
   "p_a1": {
-   "ar": "لا نرشّح إلا الجامعات والتخصصات المدرجة في قائمة الجامعات الموصى بها على منصة «سفير» التابعة لوزارة التعليم، ونراجع القائمة قبل كل تقديم لأنها تُحدَّث سنويًا.",
-   "en": "We only recommend universities and majors on the Ministry of Education recommended list (Safeer platform), and we check it before every application because it is updated yearly."
+   "ar": "نساعدكم في إجراءات معادلة الشهادة في بلدكم، ونتأكد من أن الجامعة والتخصص معتمدان، وأن جميع الأوراق سليمة ومكتملة قبل التقديم.",
+   "en": "We help you with the degree-equivalency process in your country, and make sure the university and major are accredited and that every document is correct and complete before applying."
   },
   "p_q2": {
    "ar": "هل ماليزيا آمنة لابني أو ابنتي؟",
@@ -560,8 +562,8 @@ const SEED = {
    "en": "When would you like to start?"
   },
   "f_q_recognition": {
-   "ar": "هل يهمك معادلة الشهادة في السعودية؟",
-   "en": "Does Saudi recognition of the degree matter?"
+   "ar": "هل تحتاج إلى معادلة الشهادة في بلدك؟",
+   "en": "Will you need the degree recognised in your country?"
   },
   "f_q_funding": {
    "ar": "طريقة التمويل",
@@ -742,6 +744,34 @@ const SEED = {
   "consent_text": {
    "ar": "نستخدم أدوات قياس بسيطة لمعرفة الإعلانات التي أوصلتك إلينا. هل توافق؟",
    "en": "We use simple measurement tools to know which ads bring you here. Do you agree?"
+  },
+  "f_q_system": {
+   "ar": "ما نظام شهادتك الثانوية؟",
+   "en": "Which high-school system are you in?"
+  },
+  "g_kicker": {
+   "ar": "من رحلات طلابنا",
+   "en": "From our students’ journeys"
+  },
+  "g_title": {
+   "ar": "صور حقيقية… من طلاب سبقوك إلى ماليزيا.",
+   "en": "Real moments… from students who went before you."
+  },
+  "g_body": {
+   "ar": "لحظات من استقبال طلابنا في المطار، وزياراتهم للجامعات، وفعالياتهم، وحفلات التكريم في ماليزيا.",
+   "en": "Moments from airport welcomes, campus visits, events and award ceremonies in Malaysia."
+  },
+  "g_note": {
+   "ar": "صور من Pioneer للخدمات التعليمية · اضغط على أي صورة لتكبيرها",
+   "en": "Photos from Pioneer Education Services · tap any photo to enlarge it"
+  },
+  "nav_gallery": {
+   "ar": "صور طلابنا",
+   "en": "Our students"
+  },
+  "g_close": {
+   "ar": "إغلاق",
+   "en": "Close"
   },
   "consent_yes": {
    "ar": "موافق",
@@ -1350,8 +1380,8 @@ const SEED = {
   {
    "list": "who",
    "id": "graduate",
-   "ar": "خريج أرغب في الدراسات العليا",
-   "en": "Graduate, after a master's or PhD"
+   "ar": "الدراسات العليا",
+   "en": "Postgraduate studies"
   },
   {
    "list": "stage",
@@ -1388,6 +1418,36 @@ const SEED = {
    "id": "master",
    "ar": "حاصل على الماجستير",
    "en": "I hold a master's"
+  },
+  {
+   "list": "system",
+   "id": "arabic",
+   "ar": "شهادة ثانوية عربية",
+   "en": "Arabic secondary certificate"
+  },
+  {
+   "list": "system",
+   "id": "american",
+   "ar": "الدبلوما الأمريكية (American Diploma)",
+   "en": "American Diploma"
+  },
+  {
+   "list": "system",
+   "id": "ig",
+   "ar": "البريطانية (IGCSE / A-Level)",
+   "en": "British (IGCSE / A-Level)"
+  },
+  {
+   "list": "system",
+   "id": "ib",
+   "ar": "البكالوريا الدولية (IB)",
+   "en": "International Baccalaureate (IB)"
+  },
+  {
+   "list": "system",
+   "id": "other",
+   "ar": "نظام آخر",
+   "en": "Other"
   },
   {
    "list": "degree",
@@ -1620,8 +1680,8 @@ const SEED = {
   {
    "list": "city",
    "id": "other",
-   "ar": "مدينة أخرى",
-   "en": "Other"
+   "ar": "مدينة أخرى أو خارج السعودية",
+   "en": "Another city or outside Saudi Arabia"
   },
   {
    "list": "mode",
@@ -1669,8 +1729,8 @@ const SEED = {
  "team": [
   {
    "id": "ahmad",
-   "name_ar": "أحمد علي",
-   "name_en": "Ahmad Ali",
+   "name_ar": "أحمد أحمد",
+   "name_en": "Ahmad Ahmad",
    "role_ar": "مستشار تعليمي",
    "role_en": "Education consultant",
    "whatsapp": "966590873178",
@@ -1686,16 +1746,50 @@ const SEED = {
    "whatsapp": "",
    "email": "",
    "receives_leads": true
+  }
+ ],
+ "gallery": [
+  {
+   "id": "airport",
+   "src": "https://pioneer4ss.com/wp-content/uploads/2025/04/Untitled-design-8.jpg",
+   "caption_ar": "استقبال الطلاب في مطار كوالالمبور",
+   "caption_en": "Welcoming students at Kuala Lumpur airport"
   },
   {
-   "id": "ashraf",
-   "name_ar": "م. أشرف",
-   "name_en": "Eng. Ashraf",
-   "role_ar": "المدير",
-   "role_en": "Manager",
-   "whatsapp": "",
-   "email": "",
-   "receives_leads": false
+   "id": "ceremony",
+   "src": "https://pioneer4ss.com/wp-content/uploads/2025/04/4.jpg",
+   "caption_ar": "حفل Pioneer لطلابنا في ماليزيا",
+   "caption_en": "Pioneer ceremony for our students in Malaysia"
+  },
+  {
+   "id": "newcastle",
+   "src": "https://pioneer4ss.com/wp-content/uploads/2025/04/1-1.jpg",
+   "caption_ar": "زيارة جامعة نيوكاسل ماليزيا",
+   "caption_en": "Visiting Newcastle University Malaysia"
+  },
+  {
+   "id": "fair",
+   "src": "https://pioneer4ss.com/wp-content/uploads/2025/04/6.jpg",
+   "caption_ar": "طلاب Pioneer في معرض تعليمي",
+   "caption_en": "Pioneer students at an education fair"
+  },
+  {
+   "id": "tournament",
+   "src": "https://pioneer4ss.com/wp-content/uploads/2025/04/3-1.jpg",
+   "caption_ar": "تكريم الفائزين في بطولة الطلاب",
+   "caption_en": "Honouring the winners of a student tournament"
+  },
+  {
+   "id": "award",
+   "src": "https://pioneer4ss.com/wp-content/uploads/2025/04/2-1.jpg",
+   "caption_ar": "فريق Pioneer في حفل تكريم",
+   "caption_en": "The Pioneer team at an awards event"
+  },
+  {
+   "id": "note",
+   "src": "https://pioneer4ss.com/wp-content/uploads/2025/04/5.jpg",
+   "caption_ar": "رسالة شكر من أحد طلابنا",
+   "caption_en": "A thank-you note from one of our students"
   }
  ]
 };
@@ -1771,7 +1865,7 @@ function doPost(e) {
       score: scored.label, score_points: scored.points, next_followup: '', notes: '',
       who: lb.who || data.who, full_name: name, student_name: data.student_name || '', phone: '+' + phone,
       whatsapp: data.whatsapp ? '+' + String(data.whatsapp).replace(/\D/g, '') : '', email: data.email || '', city: lb.city || data.city,
-      stage: lb.stage || data.stage, degree: lb.degree || data.degree, grades: lb.grades || data.grades, english: lb.english || data.english,
+      stage: lb.stage || data.stage, curriculum: lb.curriculum || data.curriculum || '', degree: lb.degree || data.degree, grades: lb.grades || data.grades, english: lb.english || data.english,
       major_groups: lb.major_groups || (data.major_groups || []).join(', '), majors: lb.majors || (data.majors || []).join(', '),
       uni_target: lb.uni_target || data.uni_target, universities: lb.universities || (data.universities || []).join(', '),
       budget: lb.budget || data.budget, intake: lb.intake || data.intake, recognition: lb.recognition || data.recognition,
@@ -1838,7 +1932,7 @@ function notify_(ss, row, assigned) {
   const flame = row.score === SCORES[0] ? '🔥 ' : row.score === SCORES[1] ? '⭐ ' : '';
   const fields = [['رقم الطلب', row.lead_id], ['التقييم', row.score + ' (' + row.score_points + ')'], ['المستشار', row.assigned_to], ['مين عبّى', row.who],
     ['الاسم', row.full_name], ['اسم الطالب', row.student_name], ['الجوال', row.phone], ['البريد', row.email], ['المدينة', row.city],
-    ['المرحلة', row.stage], ['الدرجة', row.degree], ['النسبة', row.grades], ['الإنجليزي', row.english], ['التخصصات', row.majors],
+    ['المرحلة', row.stage], ['نظام الشهادة', row.curriculum], ['الدرجة', row.degree], ['النسبة', row.grades], ['الإنجليزي', row.english], ['التخصصات', row.majors],
     ['الجامعات', row.universities || row.uni_target], ['الميزانية', row.budget], ['موعد البدء', row.intake], ['المعادلة', row.recognition],
     ['طريقة الاستشارة', row.consult_mode], ['أفضل وقت', row.best_time], ['المصدر', [row.utm_source, row.utm_campaign, row.ref].filter(String).join(' · ')]]
     .filter((f) => f[1]);
@@ -1849,7 +1943,7 @@ function notify_(ss, row, assigned) {
     '<table cellpadding="6" style="border-collapse:collapse">' +
     fields.map((f) => '<tr><td style="color:#666;border-bottom:1px solid #eee">' + esc_(f[0]) + '</td><td style="border-bottom:1px solid #eee"><b>' + esc_(f[1]) + '</b></td></tr>').join('') +
     '</table></div>';
-  MailApp.sendEmail({ to: uniq.join(','), subject: flame + 'عميل جديد (' + row.score + '): ' + row.full_name + ' · ' + (row.majors || ''), htmlBody: html, name: 'رحلة ماليزيا' });
+  MailApp.sendEmail({ to: uniq.join(','), subject: flame + 'عميل جديد (' + row.score + '): ' + row.full_name + ' · ' + (row.majors || ''), htmlBody: html, name: 'الدراسة في ماليزيا' });
 }
 
 function testEmail() {
@@ -1882,6 +1976,7 @@ function buildConfig_() {
     majorGroups: strip(groups, ['id', 'ar', 'en', 'icon']),
     majors: strip(visible(readRows_(ss, 'Majors')).filter((m) => groupIds.indexOf(m.group) !== -1), ['id', 'group', 'ar', 'en']),
     options: strip(visible(readRows_(ss, 'Options')), ['list', 'id', 'ar', 'en']),
+    gallery: strip(visible(readRows_(ss, 'Gallery')).filter((g) => /^https:\/\//.test(String(g.src || ''))), ['id', 'src', 'caption_ar', 'caption_en']),
     team: visible(readRows_(ss, 'Team')).map((m) => ({ id: m.id, name_ar: m.name_ar, name_en: m.name_en, role_ar: m.role_ar, role_en: m.role_en, whatsapp: String(m.whatsapp || ''), receives_leads: m.receives_leads === true }))
   };
 }
@@ -2001,6 +2096,7 @@ function seedRows_(name, cols) {
   else if (name === 'MajorGroups') list = order(SEED.majorGroups);
   else if (name === 'Majors') list = order(SEED.majors);
   else if (name === 'Options') list = order(SEED.options);
+  else if (name === 'Gallery') list = order(SEED.gallery || []);
   else if (name === 'Team') list = order(SEED.team).map((m) => Object.assign({}, m, { receives_leads: m.receives_leads ? YES : NO }));
   return list.map((o) => cols.map((c) => (o[c] === undefined || o[c] === null ? '' : o[c])));
 }
@@ -2011,12 +2107,13 @@ function setupReadme_(ss) {
   sh.clear();
   sh.setRightToLeft(true);
   const lines = [
-    ['رحلة ماليزيا: قاعدة بيانات العملاء ولوحة تحكم الموقع'],
+    ['الدراسة في ماليزيا: قاعدة بيانات العملاء ولوحة تحكم الموقع'],
     [''],
     ['Leads: كل عميل يعبّي النموذج ينزل هنا صف جديد. غيّر الحالة والمستشار وموعد المتابعة من القوائم المنسدلة.'],
     ['ما تغيّر أسماء الأعمدة في الصف الأول ولا أسماء التبويبات: الموقع والـ CRM يعتمدون عليها.'],
     [''],
-    ['Universities / Majors / MajorGroups / Options / Team / UniversityTypes: كل صف فيه عمود visible.'],
+    ['Universities / Majors / MajorGroups / Options / Team / UniversityTypes / Gallery: كل صف فيه عمود visible.'],
+    ['Gallery: صور معرض «من رحلات طلابنا». ضع رابط الصورة المباشر في عمود src.'],
     ['اختر «مخفي» عشان يختفي من الموقع، و«ظاهر» عشان يرجع. عمود order يحدد الترتيب (الأصغر أولًا).'],
     ['تقدر تضيف جامعة أو تخصص جديد: اكتب id جديد بالإنجليزي بدون مسافات، وما تغيّر id موجود.'],
     [''],

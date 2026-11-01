@@ -1,6 +1,6 @@
 // For each language and viewport: scroll to every section (several ways) and record which 3D shape shows.
 const { chromium } = require('playwright');
-const EXPECT = { hero: 'towers', s1: 'school', s2: 'car', s3: 'office', s4: 'globe', s5: 'campus', s6: 'cap', parents: 'shield', team: 'sky', start: 'sky' };
+const EXPECT = { hero: 'towers', s1: 'school', s2: 'car', s3: 'office', s4: 'globe', s5: 'campus', s6: 'cap', parents: 'shield', team: 'sky', gallery: 'sky', start: 'sky' };
 const IDS = Object.keys(EXPECT);
 const url = process.argv[2] || (process.env.SITE_URL || 'http://localhost:8080/');
 (async () => {

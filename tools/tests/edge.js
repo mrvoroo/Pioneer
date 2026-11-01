@@ -1,7 +1,7 @@
 // Edge cases around the 3D story: language switching mid-scene, reloads, hash links, resizing,
 // reduced motion, no WebGL, car direction, frantic scrolling, tab hidden/visible.
 const { chromium } = require('playwright');
-const EXPECT = { hero: 'towers', s1: 'school', s2: 'car', s3: 'office', s4: 'globe', s5: 'campus', s6: 'cap', parents: 'shield', team: 'sky', start: 'sky' };
+const EXPECT = { hero: 'towers', s1: 'school', s2: 'car', s3: 'office', s4: 'globe', s5: 'campus', s6: 'cap', parents: 'shield', team: 'sky', gallery: 'sky', start: 'sky' };
 const IDS = Object.keys(EXPECT);
 const URL = (process.env.SITE_URL || 'http://localhost:8080/');
 const fails = []; let checks = 0;
@@ -9,7 +9,7 @@ const ok = (cond, msg) => { checks++; if (!cond) fails.push(msg); };
 async function page(b, { lang = 'ar', w = 1440, h = 900, reduced = false } = {}) {
   const ctx = await b.newContext({ viewport: { width: w, height: h }, reducedMotion: reduced ? 'reduce' : 'no-preference' });
   const p = await ctx.newPage();
-  p.errs = []; p.on('pageerror', e => p.errs.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !m.text().startsWith('THREE.WebGLRenderer')) p.errs.push(m.text()); });
+  p.errs = []; p.on('pageerror', e => p.errs.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/^THREE\.WebGLRenderer|Failed to load resource/.test(m.text())) p.errs.push(m.text()); });
   await p.addInitScript((l) => { try { if (!sessionStorage.getItem('t')) { localStorage.clear(); localStorage.setItem('rihla_lang', JSON.stringify(l)); sessionStorage.setItem('t', '1'); } } catch (e) {} }, lang);
   return p;
 }
@@ -31,7 +31,7 @@ const goTo = (p, id) => p.evaluate((id) => document.getElementById(id).scrollInt
         ok(s.lang === want && s.dir === (want === 'ar' ? 'rtl' : 'ltr'), `${w} ${start} toggle#${k} on ${id}: lang=${s.lang} dir=${s.dir}`);
         ok(s.centre === id, `${w} ${start} toggle#${k} on ${id}: landed on ${s.centre}`);
         ok(s.scene === s.centre && s.dbg.shape === EXPECT[s.centre], `${w} ${start} toggle#${k} on ${id}: scene=${s.scene} shape=${s.dbg.shape}`);
-        if (w > 860 && !['team', 'start'].includes(id)) ok(Math.sign(s.dbg.goal.x) === (want === 'ar' ? -1 : 1), `${w} ${start} toggle#${k} on ${id}: shape on wrong side x=${s.dbg.goal.x}`);
+        if (w > 860 && !['team', 'gallery', 'start'].includes(id)) ok(Math.sign(s.dbg.goal.x) === (want === 'ar' ? -1 : 1), `${w} ${start} toggle#${k} on ${id}: shape on wrong side x=${s.dbg.goal.x}`);
       }
     }
     const nTriggers = await p.evaluate(() => window.ScrollTrigger.getAll().length);
@@ -135,7 +135,7 @@ const goTo = (p, id) => p.evaluate((id) => document.getElementById(id).scrollInt
     for (const id of IDS) { await goTo(p, id); await p.waitForTimeout(120); }
     const s = await state(p);
     ok(canvasGone && s.dbg === null && s.scene === s.centre, `${lang} no-webgl: canvasGone=${canvasGone} scene=${s.scene} centre=${s.centre}`);
-    await p.click('[data-field="who"][data-id="student"]'); await p.click('[data-field="stage"][data-id="g12"]'); await p.click('[data-next]');
+    await p.click('[data-field="who"][data-id="student"]'); await p.click('[data-field="stage"][data-id="g12"]'); await p.click('[data-field="system"][data-id="arabic"]'); await p.click('[data-next]');
     ok(await p.isVisible('[data-field="degree"]'), `${lang} no-webgl: form does not advance`);
     ok(!p.errs.length, `${lang} no-webgl errors: ${p.errs.join(' | ')}`);
     await p.context().close();

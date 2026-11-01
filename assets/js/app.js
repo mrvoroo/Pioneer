@@ -25,7 +25,7 @@ function mergeConfig(remote) {
     if (!v) return;
     next.texts[k] = { ar: v.ar || (next.texts[k] && next.texts[k].ar) || '', en: v.en || (next.texts[k] && next.texts[k].en) || '' };
   });
-  ['universityTypes', 'universities', 'majorGroups', 'majors', 'options', 'team'].forEach((key) => {
+  ['universityTypes', 'universities', 'majorGroups', 'majors', 'options', 'team', 'gallery'].forEach((key) => {
     if (Array.isArray(remote[key])) next[key] = remote[key];
   });
   C = next;
@@ -115,6 +115,7 @@ const SCENES = [
   { id: 's6', shape: 'cap', mode: 'spin', st: 'st6' },
   { id: 'parents', shape: 'shield', mode: 'face', yaw: 0 },
   { id: 'team', shape: 'sky', mode: 'spin' },
+  { id: 'gallery', shape: 'sky', mode: 'spin' },
   { id: 'start', shape: 'sky', mode: 'spin' }
 ];
 
@@ -123,7 +124,7 @@ function header() {
   <div class="wrap header__in">
     <a class="brand" href="#top" aria-label="${esc(t('brand'))}">${logo()}<span><b>${esc(t('brand'))}</b><small>${esc(t('brand_sub'))}</small></span></a>
     <nav class="nav" aria-label="${lang === 'ar' ? 'القائمة' : 'Menu'}">
-      <a href="#s1">${esc(t('nav_journey'))}</a><a href="#s5">${esc(t('nav_unis'))}</a><a href="#parents">${esc(t('nav_parents'))}</a><a href="#team">${esc(t('nav_team'))}</a>
+      <a href="#s1">${esc(t('nav_journey'))}</a><a href="#s5">${esc(t('nav_unis'))}</a><a href="#parents">${esc(t('nav_parents'))}</a><a href="#team">${esc(t('nav_team'))}</a><a href="#gallery">${esc(t('nav_gallery'))}</a>
     </nav>
     <div class="header__actions">
       <button class="lang" type="button" data-lang aria-label="${lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}">${esc(t('lang_switch'))}</button>
@@ -209,6 +210,36 @@ function teamHtml() {
   }).join('');
   return `<section class="scene scene--team" id="team" data-scene="team"><div class="wrap"><div class="panel panel--wide reveal">${kicker('t_kicker')}<h2>${esc(t('t_title'))}</h2><p>${esc(t('t_body'))}</p><ul class="team">${cards}</ul></div></div></section>`;
 }
+// Real photos on a slowly turning cylinder (CSS 3D, adapted from VengeanceUI's Cylinder Carousel, MIT).
+function galleryHtml() {
+  const pics = (C.gallery || []).filter((g) => g && g.src);
+  if (!pics.length) return '';
+  // A cylinder needs enough cards to close the ring, so short lists repeat.
+  const ring = []; while (ring.length < 10) ring.push(...pics);
+  const cards = ring.map((g, i) => `<figure class="cyl__card" style="--i:${i}" data-photo="${pics.indexOf(g)}"><img src="${esc(g.src)}" alt="${esc(L(g, 'caption'))}" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption>${esc(L(g, 'caption'))}</figcaption></figure>`).join('');
+  return `<section class="scene scene--gallery" id="gallery" data-scene="gallery">
+    <div class="wrap"><div class="gallery__head reveal">${kicker('g_kicker')}<h2>${esc(t('g_title'))}</h2><p>${esc(t('g_body'))}</p></div></div>
+    <div class="cyl" role="region" aria-label="${esc(t('g_title'))}"><div class="cyl__ring" style="--n:${ring.length}">${cards}</div></div>
+    <p class="gallery__note">${esc(t('g_note'))}</p>
+  </section>`;
+}
+function sizeCylinder() {
+  const ring = $('.cyl__ring'); if (!ring) return;
+  const n = Number(ring.style.getPropertyValue('--n')) || 10;
+  const w = Math.min(250, Math.max(150, window.innerWidth * 0.36));
+  const gap = 10;
+  ring.style.setProperty('--w', w + 'px');
+  ring.style.setProperty('--tz', -((w / 2 + gap) / Math.tan(Math.PI / n)) + 'px');
+}
+function openPhoto(i) {
+  const g = (C.gallery || []).filter((x) => x && x.src)[i]; if (!g) return;
+  const d = $('#lightbox');
+  d.innerHTML = `<figure class="lightbox__in"><img src="${esc(g.src)}" alt="${esc(L(g, 'caption'))}" referrerpolicy="no-referrer"><figcaption>${esc(L(g, 'caption'))}</figcaption><button type="button" class="btn btn--gold btn--sm" data-close>${esc(t('g_close'))}</button></figure>`;
+  d.querySelector('[data-close]').addEventListener('click', () => d.close());
+  d.addEventListener('click', (e) => { if (e.target === d) d.close(); }, { once: true });
+  if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+}
+
 function formShell() {
   return `<section class="scene scene--form" id="start" data-scene="start"><div class="wrap">
     <div class="formcard reveal">
@@ -230,8 +261,10 @@ function footerHtml() {
 
 /* ---------------- The lead form ---------------- */
 const STEP_COUNT = 6;
+const SCHOOL_STAGES = ['g11', 'g12', 'hs_grad'];
+const needsSystem = () => SCHOOL_STAGES.includes(F.stage);
 const F = Object.assign({
-  step: 0, who: '', stage: '', degree: '', grades: '', english: '', groups: [], majors: [], notSure: false,
+  step: 0, who: '', stage: '', system: '', degree: '', grades: '', english: '', groups: [], majors: [], notSure: false,
   uniTarget: '', unis: [], budget: '', intake: '', recognition: '', funding: '',
   name: '', studentName: '', phone: '', waSame: true, whatsapp: '', email: '', city: '', mode: '', time: '', consultant: '', consent: false, hp: ''
 }, store.get('rihla_form') || {});
@@ -244,7 +277,7 @@ const chip = (field, id, label, on, extra = '') => `<button type="button" class=
 const single = (field, list, title) => `<fieldset class="q"><legend>${esc(t(title))}</legend><div class="chips">${opts(list).map((o) => chip(field, o.id, L(o), F[field] === o.id)).join('')}</div></fieldset>`;
 
 function stepHtml(n) {
-  if (n === 0) return single('who', 'who', 'f_q_who') + single('stage', 'stage', 'f_q_stage');
+  if (n === 0) return single('who', 'who', 'f_q_who') + single('stage', 'stage', 'f_q_stage') + (needsSystem() ? single('system', 'system', 'f_q_system') : '');
   if (n === 1) return single('degree', 'degree', 'f_q_degree') + single('grades', 'grades', 'f_q_grades') + single('english', 'english', 'f_q_english');
   if (n === 2) {
     const groups = C.majorGroups.map((g) => {
@@ -325,10 +358,13 @@ function onFormClick(e) {
   else if (field === 'notSure') { F.notSure = !F.notSure; if (F.notSure) { F.groups = []; F.majors = []; } }
   else {
     F[field] = id;
+    if (field === 'degree') F.degreeAuto = false;
     if (field === 'uniTarget' && id === 'no') F.unis = [];
+    if (field === 'stage' && !SCHOOL_STAGES.includes(id)) F.system = '';
     if (field === 'stage') {
       const map = { g11: 'bachelor', g12: 'bachelor', hs_grad: 'bachelor', uni_student: 'bachelor', bachelor: 'master', master: 'phd' };
-      if (!F.degree && map[id]) F.degree = map[id];
+      // Suggest the next degree, but never overwrite one the visitor picked themselves.
+      if (map[id] && (!F.degree || F.degreeAuto)) { F.degree = map[id]; F.degreeAuto = true; }
     }
     if (field === 'who' && id === 'graduate' && !F.stage) F.stage = 'bachelor';
   }
@@ -368,6 +404,7 @@ function validate() {
   const need = (...ks) => ks.every((k) => F[k]);
   const s = F.step;
   if (s === 0 && !need('who', 'stage')) return t('f_err_pick');
+  if (s === 0 && needsSystem() && !F.system) return t('f_err_pick');
   if (s === 1 && !need('degree', 'grades', 'english')) return t('f_err_pick');
   if (s === 2 && !F.notSure && !F.majors.length) return F.groups.length ? t('f_err_majors') : t('f_err_majors');
   if (s === 3 && !F.uniTarget) return t('f_err_pick');
@@ -391,7 +428,7 @@ function next() {
 
 /* ---- submit ---- */
 const labelsFor = (l) => ({
-  who: optLabel('who', F.who, l), stage: optLabel('stage', F.stage, l), degree: optLabel('degree', F.degree, l), grades: optLabel('grades', F.grades, l), english: optLabel('english', F.english, l),
+  who: optLabel('who', F.who, l), stage: optLabel('stage', F.stage, l), curriculum: F.system ? optLabel('system', F.system, l) : '', degree: optLabel('degree', F.degree, l), grades: optLabel('grades', F.grades, l), english: optLabel('english', F.english, l),
   major_groups: F.groups.map((g) => { const x = C.majorGroups.find((y) => y.id === g); return x ? x[l] || x.ar : g; }).join('، '),
   majors: F.notSure ? (l === 'ar' ? 'لم أحدد بعد' : 'Not sure yet') : F.majors.map((m) => { const x = C.majors.find((y) => y.id === m); return x ? x[l] || x.ar : m; }).join('، '),
   universities: F.unis.map((u) => { const x = C.universities.find((y) => y.id === u); return x ? (x.short) : u; }).join('، '),
@@ -425,7 +462,7 @@ async function submit(e) {
   sending = true;
   leadId = leadId || makeId();
   const payload = {
-    lead_id: leadId, lang, who: F.who, stage: F.stage, degree: F.degree, grades: F.grades, english: F.english,
+    lead_id: leadId, lang, who: F.who, stage: F.stage, curriculum: needsSystem() ? F.system : '', degree: F.degree, grades: F.grades, english: F.english,
     major_groups: F.groups, majors: F.notSure ? ['not_sure'] : F.majors, uni_target: F.uniTarget, universities: F.unis,
     budget: F.budget, intake: F.intake, recognition: F.recognition, funding: F.funding,
     full_name: F.name.trim(), student_name: F.studentName.trim(), phone: normPhone(F.phone), whatsapp: F.waSame ? normPhone(F.phone) : normPhone(F.whatsapp),
@@ -515,9 +552,10 @@ let world = null, triggers = [];
 function sceneOpts(s) {
   const side = lang === 'ar' ? -1 : 1;
   const m = isMobile();
-  const base = m ? { x: 0, y: s.id === 'start' || s.id === 'team' ? 0 : 1.75, scale: 0.6, opacity: s.id === 'start' ? 0.45 : 0.85 }
+  const calm = ['team', 'gallery', 'start'].includes(s.id);
+  const base = m ? { x: 0, y: calm ? 0 : 1.75, scale: 0.6, opacity: s.id === 'start' || s.id === 'gallery' ? 0.45 : 0.85 }
     : { x: side * 2.75, y: 0, scale: 1, opacity: 0.95 };
-  if (!m && (s.id === 'start' || s.id === 'team')) Object.assign(base, { x: 0, opacity: 0.5, scale: 1.25 });
+  if (!m && calm) Object.assign(base, { x: 0, opacity: 0.5, scale: 1.25 });
   if (s.id === 'hero' && !m) base.scale = 1.05;
   if (s.id === 'hero' && m) Object.assign(base, { y: 1.55, scale: 0.68 });
   return Object.assign(base, { mode: s.mode, yaw: s.yaw || 0, flipX: s.shape === 'car' && lang === 'en' ? -1 : 1 });
@@ -600,15 +638,16 @@ function setupScroll() {
 function render() {
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.title = lang === 'ar' ? 'رحلة ماليزيا · ادرس في ماليزيا مع مستشاري Pioneer الرياض' : 'Malaysia Journey · Study in Malaysia with Pioneer consultants in Riyadh';
+  document.title = lang === 'ar' ? 'الدراسة في ماليزيا · مستشارو Pioneer في الرياض' : 'Study in Malaysia · Pioneer consultants in Riyadh';
   $('#site-header').innerHTML = header();
   $('#rail').innerHTML = rail();
   $('#rail').setAttribute('aria-label', lang === 'ar' ? 'محطات الرحلة' : 'Journey stops');
-  $('#main').innerHTML = `<span id="top"></span>${heroHtml()}${s1Html()}${s2Html()}${s3Html()}${s4Html()}${s5Html()}${s6Html()}${parentsHtml()}${teamHtml()}${formShell()}`;
+  $('#main').innerHTML = `<span id="top"></span>${heroHtml()}${s1Html()}${s2Html()}${s3Html()}${s4Html()}${s5Html()}${s6Html()}${parentsHtml()}${teamHtml()}${galleryHtml()}${formShell()}`;
   $('#site-footer').innerHTML = footerHtml();
   $('#mobile-cta').innerHTML = `<a class="btn btn--gold" href="#start">${icon('cal', 18)}${esc(t('hero_cta'))}</a>`;
   const firstType = C.universityTypes[0];
   if (firstType) $('#typepanel').innerHTML = typePanel(firstType.id);
+  sizeCylinder();
   if (F.step >= STEP_COUNT) F.step = 0;
   renderForm();
   setupScroll();
@@ -629,6 +668,8 @@ function bind() {
       syncScene(true);
       return;
     }
+    const photo = e.target.closest('[data-photo]');
+    if (photo) { openPhoto(Number(photo.dataset.photo)); return; }
     const tab = e.target.closest('.tab');
     if (tab) { $$('.tab').forEach((x) => x.setAttribute('aria-selected', String(x === tab))); $('#typepanel').innerHTML = typePanel(tab.dataset.type); return; }
     if (e.target.closest('[data-privacy]') && !e.target.closest('#leadform')) { openPrivacy(); return; }
@@ -645,6 +686,7 @@ function bind() {
   window.addEventListener('resize', () => {
     if (Math.abs(window.innerWidth - w) < 40 && Math.abs(window.innerHeight - h) < 120) return;
     w = window.innerWidth; h = window.innerHeight;
+    sizeCylinder();
     syncScene(true);
   });
   window.addEventListener('hashchange', () => setTimeout(() => syncScene(), 60));
@@ -657,7 +699,7 @@ function pruneDraft() {
   F.groups = F.groups.filter((g) => has(C.majorGroups, g));
   F.majors = F.majors.filter((m) => has(C.majors, m));
   F.unis = F.unis.filter((u) => has(C.universities, u));
-  ['who', 'stage', 'degree', 'grades', 'english', 'budget', 'intake', 'recognition', 'funding', 'city', 'mode', 'time'].forEach((k) => {
+  ['who', 'stage', 'system', 'degree', 'grades', 'english', 'budget', 'intake', 'recognition', 'funding', 'city', 'mode', 'time'].forEach((k) => {
     const list = { mode: 'mode', time: 'time' }[k] || k;
     if (F[k] && !C.options.some((o) => o.list === list && o.id === F[k])) F[k] = '';
   });

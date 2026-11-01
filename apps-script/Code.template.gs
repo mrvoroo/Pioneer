@@ -1,5 +1,5 @@
 /**
- * Rihla Malaysia: the Google Sheet is both the leads database and the site's control panel.
+ * Study in Malaysia: the Google Sheet is both the leads database and the site's control panel.
  *
  * - doGet  ?action=config  -> the site reads texts, universities, majors, options, team and public settings.
  * - doPost (lead JSON)     -> one new row in "Leads", a lead score, an assigned consultant and an email alert.
@@ -30,7 +30,8 @@ const LEAD_COLUMNS = [
   ['funding', 'التمويل'], ['consult_mode', 'طريقة الاستشارة'], ['best_time', 'أفضل وقت'], ['preferred_consultant', 'المستشار المفضّل'],
   ['lang', 'لغة الموقع'], ['utm_source', 'المصدر'], ['utm_medium', 'الوسيط'], ['utm_campaign', 'الحملة'], ['utm_content', 'محتوى الإعلان'],
   ['ref', 'رمز الإحالة'], ['landing_page', 'صفحة الدخول'], ['referrer', 'الموقع المحيل'], ['device', 'الجهاز'],
-  ['consent', 'الموافقة'], ['consent_at', 'وقت الموافقة'], ['updated_at', 'آخر تحديث'], ['raw_json', 'البيانات الخام']
+  ['consent', 'الموافقة'], ['consent_at', 'وقت الموافقة'], ['updated_at', 'آخر تحديث'], ['raw_json', 'البيانات الخام'],
+  ['curriculum', 'نظام الشهادة الثانوية']
 ];
 
 // The config tabs: [sheet name, columns, Arabic description]. Seed rows come from the site's content.js.
@@ -42,7 +43,8 @@ const CONFIG_SHEETS = {
   MajorGroups: { cols: ['id', 'ar', 'en', 'icon', 'visible', 'order'], note: 'المجالات الكبيرة (الهندسة، الطب…).' },
   Majors: { cols: ['id', 'group', 'ar', 'en', 'visible', 'order'], note: 'التخصصات تحت كل مجال. group = id المجال.' },
   Options: { cols: ['list', 'id', 'ar', 'en', 'visible', 'order'], note: 'خيارات أسئلة النموذج (الميزانية، مواعيد البدء، المدن…).' },
-  Team: { cols: ['id', 'name_ar', 'name_en', 'role_ar', 'role_en', 'whatsapp', 'email', 'receives_leads', 'visible', 'order'], note: 'فريقك. receives_leads = نعم يعني يستلم عملاء بالتناوب.' }
+  Team: { cols: ['id', 'name_ar', 'name_en', 'role_ar', 'role_en', 'whatsapp', 'email', 'receives_leads', 'visible', 'order'], note: 'فريقك. receives_leads = نعم يعني يستلم عملاء بالتناوب.' },
+  Gallery: { cols: ['id', 'src', 'caption_ar', 'caption_en', 'visible', 'order'], note: 'صور معرض «من رحلات طلابنا». src = رابط مباشر للصورة (يبدأ بـ https).' }
 };
 const PUBLIC_SETTINGS = ['whatsapp_number', 'booking_url', 'office_map_url', 'instagram_url', 'youtube_url', 'snapchat_url', 'tiktok_url', 'ga4_id', 'meta_pixel_id', 'snap_pixel_id', 'response_promise_hours'];
 const SETTING_NOTES = {
@@ -128,7 +130,7 @@ function doPost(e) {
       score: scored.label, score_points: scored.points, next_followup: '', notes: '',
       who: lb.who || data.who, full_name: name, student_name: data.student_name || '', phone: '+' + phone,
       whatsapp: data.whatsapp ? '+' + String(data.whatsapp).replace(/\D/g, '') : '', email: data.email || '', city: lb.city || data.city,
-      stage: lb.stage || data.stage, degree: lb.degree || data.degree, grades: lb.grades || data.grades, english: lb.english || data.english,
+      stage: lb.stage || data.stage, curriculum: lb.curriculum || data.curriculum || '', degree: lb.degree || data.degree, grades: lb.grades || data.grades, english: lb.english || data.english,
       major_groups: lb.major_groups || (data.major_groups || []).join(', '), majors: lb.majors || (data.majors || []).join(', '),
       uni_target: lb.uni_target || data.uni_target, universities: lb.universities || (data.universities || []).join(', '),
       budget: lb.budget || data.budget, intake: lb.intake || data.intake, recognition: lb.recognition || data.recognition,
@@ -195,7 +197,7 @@ function notify_(ss, row, assigned) {
   const flame = row.score === SCORES[0] ? '🔥 ' : row.score === SCORES[1] ? '⭐ ' : '';
   const fields = [['رقم الطلب', row.lead_id], ['التقييم', row.score + ' (' + row.score_points + ')'], ['المستشار', row.assigned_to], ['مين عبّى', row.who],
     ['الاسم', row.full_name], ['اسم الطالب', row.student_name], ['الجوال', row.phone], ['البريد', row.email], ['المدينة', row.city],
-    ['المرحلة', row.stage], ['الدرجة', row.degree], ['النسبة', row.grades], ['الإنجليزي', row.english], ['التخصصات', row.majors],
+    ['المرحلة', row.stage], ['نظام الشهادة', row.curriculum], ['الدرجة', row.degree], ['النسبة', row.grades], ['الإنجليزي', row.english], ['التخصصات', row.majors],
     ['الجامعات', row.universities || row.uni_target], ['الميزانية', row.budget], ['موعد البدء', row.intake], ['المعادلة', row.recognition],
     ['طريقة الاستشارة', row.consult_mode], ['أفضل وقت', row.best_time], ['المصدر', [row.utm_source, row.utm_campaign, row.ref].filter(String).join(' · ')]]
     .filter((f) => f[1]);
@@ -206,7 +208,7 @@ function notify_(ss, row, assigned) {
     '<table cellpadding="6" style="border-collapse:collapse">' +
     fields.map((f) => '<tr><td style="color:#666;border-bottom:1px solid #eee">' + esc_(f[0]) + '</td><td style="border-bottom:1px solid #eee"><b>' + esc_(f[1]) + '</b></td></tr>').join('') +
     '</table></div>';
-  MailApp.sendEmail({ to: uniq.join(','), subject: flame + 'عميل جديد (' + row.score + '): ' + row.full_name + ' · ' + (row.majors || ''), htmlBody: html, name: 'رحلة ماليزيا' });
+  MailApp.sendEmail({ to: uniq.join(','), subject: flame + 'عميل جديد (' + row.score + '): ' + row.full_name + ' · ' + (row.majors || ''), htmlBody: html, name: 'الدراسة في ماليزيا' });
 }
 
 function testEmail() {
@@ -239,6 +241,7 @@ function buildConfig_() {
     majorGroups: strip(groups, ['id', 'ar', 'en', 'icon']),
     majors: strip(visible(readRows_(ss, 'Majors')).filter((m) => groupIds.indexOf(m.group) !== -1), ['id', 'group', 'ar', 'en']),
     options: strip(visible(readRows_(ss, 'Options')), ['list', 'id', 'ar', 'en']),
+    gallery: strip(visible(readRows_(ss, 'Gallery')).filter((g) => /^https:\/\//.test(String(g.src || ''))), ['id', 'src', 'caption_ar', 'caption_en']),
     team: visible(readRows_(ss, 'Team')).map((m) => ({ id: m.id, name_ar: m.name_ar, name_en: m.name_en, role_ar: m.role_ar, role_en: m.role_en, whatsapp: String(m.whatsapp || ''), receives_leads: m.receives_leads === true }))
   };
 }
@@ -358,6 +361,7 @@ function seedRows_(name, cols) {
   else if (name === 'MajorGroups') list = order(SEED.majorGroups);
   else if (name === 'Majors') list = order(SEED.majors);
   else if (name === 'Options') list = order(SEED.options);
+  else if (name === 'Gallery') list = order(SEED.gallery || []);
   else if (name === 'Team') list = order(SEED.team).map((m) => Object.assign({}, m, { receives_leads: m.receives_leads ? YES : NO }));
   return list.map((o) => cols.map((c) => (o[c] === undefined || o[c] === null ? '' : o[c])));
 }
@@ -368,12 +372,13 @@ function setupReadme_(ss) {
   sh.clear();
   sh.setRightToLeft(true);
   const lines = [
-    ['رحلة ماليزيا: قاعدة بيانات العملاء ولوحة تحكم الموقع'],
+    ['الدراسة في ماليزيا: قاعدة بيانات العملاء ولوحة تحكم الموقع'],
     [''],
     ['Leads: كل عميل يعبّي النموذج ينزل هنا صف جديد. غيّر الحالة والمستشار وموعد المتابعة من القوائم المنسدلة.'],
     ['ما تغيّر أسماء الأعمدة في الصف الأول ولا أسماء التبويبات: الموقع والـ CRM يعتمدون عليها.'],
     [''],
-    ['Universities / Majors / MajorGroups / Options / Team / UniversityTypes: كل صف فيه عمود visible.'],
+    ['Universities / Majors / MajorGroups / Options / Team / UniversityTypes / Gallery: كل صف فيه عمود visible.'],
+    ['Gallery: صور معرض «من رحلات طلابنا». ضع رابط الصورة المباشر في عمود src.'],
     ['اختر «مخفي» عشان يختفي من الموقع، و«ظاهر» عشان يرجع. عمود order يحدد الترتيب (الأصغر أولًا).'],
     ['تقدر تضيف جامعة أو تخصص جديد: اكتب id جديد بالإنجليزي بدون مسافات، وما تغيّر id موجود.'],
     [''],

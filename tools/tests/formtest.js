@@ -40,7 +40,7 @@ const err = (p) => p.textContent('#ferr');
 const step = (p) => p.evaluate(() => Number(document.querySelector('#leadform .step')?.dataset.step ?? -1));
 async function toForm(p) { await p.evaluate(() => document.getElementById('start').scrollIntoView()); await p.waitForTimeout(150); }
 async function fillTo(p, n, o = {}) {
-  if (n >= 1) { await c(p, `[data-field="who"][data-id="${o.who || 'student'}"]`); await c(p, '[data-field="stage"][data-id="g12"]'); await c(p, '[data-next]'); }
+  if (n >= 1) { await c(p, `[data-field="who"][data-id="${o.who || 'student'}"]`); await c(p, '[data-field="stage"][data-id="g12"]'); await c(p, '[data-field="system"][data-id="american"]'); await c(p, '[data-next]'); }
   if (n >= 2) { await c(p, '[data-field="grades"][data-id="80_89"]'); await c(p, '[data-field="english"][data-id="good"]'); await c(p, '[data-next]'); }
   if (n >= 3) { if (o.notSure) await c(p, '[data-field="notSure"]'); else { await c(p, '[data-group="eng"]'); await c(p, '[data-field="majors"][data-id="eng_mech"]'); } await c(p, '[data-next]'); }
   if (n >= 4) { await c(p, `[data-field="uniTarget"][data-id="${o.uni || 'yes'}"]`); if ((o.uni || 'yes') === 'yes') { await c(p, '[data-field="unis"][data-id="utm"]'); await c(p, '[data-field="unis"][data-id="monash"]'); } await c(p, '[data-next]'); }
@@ -56,11 +56,22 @@ async function contact(p, { name = 'Sara Ahmed', phone = '0512345678', email = '
   const b = await chromium.launch({ args: ['--use-gl=swiftshader'] });
   for (const lang of ['ar', 'en']) {
     const L = (s) => `[${lang}] ${s}`;
+    // A0. Labels the user asked for.
+    { const pp = await open(b, { lang }); const gl = await pp.textContent('[data-field="who"][data-id="graduate"]'); ok(lang === 'ar' ? gl.trim() === 'الدراسات العليا' : gl.trim() === 'Postgraduate studies', L('graduate option label: ' + gl)); await pp.context().close(); }
     // A. Required answers on every step.
     let p = await open(b, { lang }); await toForm(p);
     await c(p, '[data-next]'); ok((await err(p)).length > 3 && await step(p) === 0, L('step 0 advances without answers'));
     await c(p, '[data-field="who"][data-id="student"]'); ok((await err(p)) === '', L('error not cleared after answering'));
     await c(p, '[data-next]'); ok(await step(p) === 0, L('step 0 advances with only one answer'));
+    // High-school system: only asked for school stages, required when asked, cleared for other stages.
+    await c(p, '[data-field="stage"][data-id="bachelor"]');
+    ok(!(await p.$('[data-field="system"]')), L('system question shown for a bachelor holder'));
+    await c(p, '[data-field="stage"][data-id="g12"]');
+    ok(!!(await p.$('[data-field="system"][data-id="ib"]')), L('system question missing for grade 12'));
+    await c(p, '[data-next]'); ok(await step(p) === 0, L('step 0 advances without the high-school system'));
+    await c(p, '[data-field="system"][data-id="american"]');
+    await c(p, '[data-next]'); ok(await step(p) === 1, L('step 0 does not advance with stage + system'));
+    await c(p, '[data-back]');
     await fillTo(p, 1);
     await c(p, '[data-next]'); ok(await step(p) === 1, L('step 1 advances empty'));
     ok(await p.getAttribute('[data-field="degree"][data-id="bachelor"]', 'aria-pressed') === 'true', L('degree not pre-selected from stage'));
@@ -127,6 +138,7 @@ async function contact(p, { name = 'Sara Ahmed', phone = '0512345678', email = '
     const post = p.posts[0];
     ok(post.phone === '966512345678' && post.whatsapp === '966555555555' && post.who === 'parent', L('payload phone/whatsapp/who wrong: ' + JSON.stringify([post.phone, post.whatsapp, post.who])));
     ok(post.universities.length === 2 && post.majors[0] === 'eng_mech' && post.labels && post.labels.majors, L('payload choices wrong'));
+    ok(post.curriculum === 'american' && /American/.test(post.labels.curriculum), L('curriculum not sent: ' + post.curriculum));
     ok(await p.evaluate(() => !window.__x && !document.querySelector('.success img')), L('name HTML was injected'));
     ok((await p.getAttribute('.success a[href*="wa.me"]', 'href')).includes('966500000002'), L('success WhatsApp not routed to assigned consultant'));
     await p.reload({ waitUntil: 'domcontentloaded' }); await p.waitForSelector('#leadform .step'); await p.waitForTimeout(300);

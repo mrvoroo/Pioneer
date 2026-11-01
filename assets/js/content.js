@@ -18,7 +18,7 @@ window.RIHLA_DEFAULTS = {
   },
 
   texts: {
-    brand: { ar: 'رحلة ماليزيا', en: 'Malaysia Journey' },
+    brand: { ar: 'الدراسة في ماليزيا', en: 'Study in Malaysia' },
     brand_sub: { ar: 'مستشارو Pioneer · الرياض', en: 'Pioneer consultants · Riyadh' },
     nav_journey: { ar: 'الرحلة', en: 'The journey' },
     nav_unis: { ar: 'الجامعات', en: 'Universities' },
@@ -28,7 +28,7 @@ window.RIHLA_DEFAULTS = {
     lang_switch: { ar: 'EN', en: 'عربي' },
     loading: { ar: 'نُجهّز رحلتك…', en: 'Preparing your journey…' },
 
-    hero_kicker: { ar: 'مستشاروك للدراسة في ماليزيا · Pioneer الرياض', en: 'Your study-in-Malaysia advisors · Pioneer Riyadh' },
+    hero_kicker: { ar: 'مستشارو الدراسة في ماليزيا · Pioneer الرياض', en: 'Study-in-Malaysia advisors · Pioneer Riyadh' },
     hero_title_a: { ar: 'من مقاعد الدراسة في الرياض…', en: 'From your studies in Riyadh…' },
     hero_title_b: { ar: 'إلى جامعة عالمية في ماليزيا.', en: 'to a world-class university in Malaysia.' },
     hero_sub: { ar: 'نرافقك خطوة بخطوة: نختار معك التخصص والجامعة المعترف بها، ونُعدّ أوراقك وتأشيرتك، ونستقبلك في المطار. والاستشارة الأولى مجانية.', en: 'We walk with you step by step: the right major and a recognised university, your papers and visa, and a welcome at the airport. The first consultation is free.' },
@@ -49,7 +49,7 @@ window.RIHLA_DEFAULTS = {
     s1_body: { ar: 'من الطبيعي أن تشعر بالحيرة؛ فالقرار كبير والمعلومات كثيرة ومتضاربة. هذه أسئلة نسمعها كل يوم، ولكلٍّ منها إجابة واضحة.', en: 'Feeling lost is normal. It is a big decision and the information out there is messy. We hear these questions every day, and each one has a clear answer.' },
     s1_q1: { ar: 'أي تخصص يناسبني؟', en: 'Which major suits me?' },
     s1_q2: { ar: 'أي جامعة أختار؟', en: 'Which university should I pick?' },
-    s1_q3: { ar: 'هل تُعادَل الشهادة في السعودية؟', en: 'Will my degree be recognised in Saudi Arabia?' },
+    s1_q3: { ar: 'هل ستُعادَل شهادتي في بلدي؟', en: 'Will my degree be recognised back home?' },
     s1_q4: { ar: 'ما التكلفة الحقيقية؟', en: 'What is the real cost?' },
     s1_q5: { ar: 'كيف أُقنع أهلي؟', en: 'How do I convince my parents?' },
 
@@ -64,8 +64,8 @@ window.RIHLA_DEFAULTS = {
     s3_kicker: { ar: 'المحطة 03 · نُجهّزك', en: 'Stop 03 · We get you ready' },
     s3_title: { ar: 'ملفك مسؤوليتنا، من بدايته إلى نهايته.', en: 'Your file is on us, start to finish.' },
     s3_body: { ar: 'ركّز أنت على اختيارك، ونحن نتابع الأوراق والجامعة والتأشيرة.', en: 'You focus on your choice; we handle the paperwork, the university and the visa.' },
-    s3_p1t: { ar: 'الترشيح', en: 'Shortlist' }, s3_p1: { ar: 'جامعات وتخصصات نتحقق من وجودها في قائمة «سفير» لوزارة التعليم.', en: 'Universities and majors we check against the Ministry of Education Safeer list.' },
-    s3_p2t: { ar: 'التوثيق', en: 'Attestation' }, s3_p2: { ar: 'تُوثَّق شهادتك من وزارة التعليم، ثم وزارة الخارجية، ثم السفارة الماليزية.', en: 'Your certificate through Education, Foreign Affairs, then the Malaysian Embassy.' },
+    s3_p1t: { ar: 'الترشيح', en: 'Shortlist' }, s3_p1: { ar: 'نرشّح جامعات وتخصصات معتمدة تناسب أهدافك ومعدلك.', en: 'Accredited universities and majors that fit your goals and grades.' },
+    s3_p2t: { ar: 'التوثيق', en: 'Attestation' }, s3_p2: { ar: 'نساعدك في توثيق شهاداتك، ونتأكد من أن جميع أوراقك سليمة ومكتملة.', en: 'We help you attest your certificates and make sure every document is correct and complete.' },
     s3_p3t: { ar: 'القبول', en: 'Admission' }, s3_p3: { ar: 'نتقدّم إلى الجامعة ونتابع الطلب حتى يصلك خطاب القبول.', en: 'We apply and follow up until your offer letter arrives.' },
     s3_p4t: { ar: 'التأشيرة', en: 'Visa' }, s3_p4: { ar: 'نتابع ملفك لدى EMGS حتى يصدر خطاب الموافقة على التأشيرة (VAL).', en: 'Your file with EMGS until the Visa Approval Letter (VAL) is issued.' },
 
@@ -96,8 +96,8 @@ window.RIHLA_DEFAULTS = {
     p_kicker: { ar: 'لولي الأمر', en: 'For parents' },
     p_title: { ar: 'أسئلتكم في محلّها، وهذه إجاباتنا.', en: 'Your questions are fair. Here are our answers.' },
     p_body: { ar: 'يمكنكم حضور الاستشارة مع ابنكم أو ابنتكم، في المكتب أو عبر الإنترنت.', en: 'You are welcome to join the consultation with your son or daughter, in the office or online.' },
-    p_q1: { ar: 'هل الشهادة معترف بها في السعودية؟', en: 'Is the degree recognised in Saudi Arabia?' },
-    p_a1: { ar: 'لا نرشّح إلا الجامعات والتخصصات المدرجة في قائمة الجامعات الموصى بها على منصة «سفير» التابعة لوزارة التعليم، ونراجع القائمة قبل كل تقديم لأنها تُحدَّث سنويًا.', en: 'We only recommend universities and majors on the Ministry of Education recommended list (Safeer platform), and we check it before every application because it is updated yearly.' },
+    p_q1: { ar: 'هل الشهادة معترف بها في بلدي؟', en: 'Will the degree be recognised in my country?' },
+    p_a1: { ar: 'نساعدكم في إجراءات معادلة الشهادة في بلدكم، ونتأكد من أن الجامعة والتخصص معتمدان، وأن جميع الأوراق سليمة ومكتملة قبل التقديم.', en: 'We help you with the degree-equivalency process in your country, and make sure the university and major are accredited and that every document is correct and complete before applying.' },
     p_q2: { ar: 'هل ماليزيا آمنة لابني أو ابنتي؟', en: 'Is Malaysia safe for my son or daughter?' },
     p_a2: { ar: 'ماليزيا بلد أغلب سكانه مسلمون، والطعام الحلال متوفر في كل مكان، والمساجد موجودة داخل الجامعات. ويستقبل فريق Pioneer الطالب في المطار، ويساعده في إيجاد السكن، ويبقى على تواصل معه.', en: 'A Muslim-majority country with halal food everywhere and mosques on campus. The Pioneer team meets students at the airport, helps with housing and stays in touch.' },
     p_q3: { ar: 'لماذا ماليزيا وليس بريطانيا أو أستراليا؟', en: 'Why Malaysia and not the UK or Australia?' },
@@ -131,7 +131,7 @@ window.RIHLA_DEFAULTS = {
     f_uni_search: { ar: 'ابحث عن جامعة…', en: 'Search universities…' },
     f_q_budget: { ar: 'الميزانية السنوية التقريبية للرسوم', en: 'Approximate yearly tuition budget' },
     f_q_intake: { ar: 'متى تريد أن تبدأ؟', en: 'When would you like to start?' },
-    f_q_recognition: { ar: 'هل يهمك معادلة الشهادة في السعودية؟', en: 'Does Saudi recognition of the degree matter?' },
+    f_q_recognition: { ar: 'هل تحتاج إلى معادلة الشهادة في بلدك؟', en: 'Will you need the degree recognised in your country?' },
     f_q_funding: { ar: 'طريقة التمويل', en: 'Funding' },
     f_q_contact: { ar: 'كيف نتواصل معك؟', en: 'How do we reach you?' },
     f_name: { ar: 'الاسم الكامل', en: 'Full name' },
@@ -179,6 +179,13 @@ window.RIHLA_DEFAULTS = {
     privacy_body: { ar: 'نجمع البيانات التي تكتبها في النموذج (الاسم، والجوال، والبريد الإلكتروني، واختياراتك الدراسية) ومصدر زيارتك، فقط للتواصل معك بشأن الدراسة في ماليزيا وتقديم الاستشارة لك. نحفظ هذه البيانات في قاعدة بيانات خاصة لا يطّلع عليها إلا فريق الاستشارات، ولا نبيعها ولا نشاركها مع أي طرف آخر دون موافقتك، باستثناء الجامعة التي تختار التقديم إليها. يمكنك طلب الاطلاع على بياناتك أو تعديلها أو حذفها في أي وقت عبر واتساب أو البريد الإلكتروني. ونلتزم بنظام حماية البيانات الشخصية في المملكة العربية السعودية.', en: 'We collect what you type in the form (name, phone, email and study choices) and where your visit came from, only to contact you about studying in Malaysia and to give you a consultation. It is kept in a private database that only the consulting team can see. We do not sell it or share it with anyone without your consent, except the university you choose to apply to. You can ask to see, correct or delete your data at any time by WhatsApp or email. We follow the Saudi Personal Data Protection Law.' },
     privacy_close: { ar: 'إغلاق', en: 'Close' },
     consent_text: { ar: 'نستخدم أدوات قياس بسيطة لمعرفة الإعلانات التي أوصلتك إلينا. هل توافق؟', en: 'We use simple measurement tools to know which ads bring you here. Do you agree?' },
+    f_q_system: { ar: 'ما نظام شهادتك الثانوية؟', en: 'Which high-school system are you in?' },
+    g_kicker: { ar: 'من رحلات طلابنا', en: 'From our students’ journeys' },
+    g_title: { ar: 'صور حقيقية… من طلاب سبقوك إلى ماليزيا.', en: 'Real moments… from students who went before you.' },
+    g_body: { ar: 'لحظات من استقبال طلابنا في المطار، وزياراتهم للجامعات، وفعالياتهم، وحفلات التكريم في ماليزيا.', en: 'Moments from airport welcomes, campus visits, events and award ceremonies in Malaysia.' },
+    g_note: { ar: 'صور من Pioneer للخدمات التعليمية · اضغط على أي صورة لتكبيرها', en: 'Photos from Pioneer Education Services · tap any photo to enlarge it' },
+    nav_gallery: { ar: 'صور طلابنا', en: 'Our students' },
+    g_close: { ar: 'إغلاق', en: 'Close' },
     consent_yes: { ar: 'موافق', en: 'Agree' }, consent_no: { ar: 'لا شكرًا', en: 'No thanks' }
   },
 
@@ -292,7 +299,7 @@ window.RIHLA_DEFAULTS = {
   options: [
     { list: 'who', id: 'student', ar: 'أنا الطالب', en: "I'm the student" },
     { list: 'who', id: 'parent', ar: 'ولي أمر', en: "I'm a parent" },
-    { list: 'who', id: 'graduate', ar: 'خريج أرغب في الدراسات العليا', en: "Graduate, after a master's or PhD" },
+    { list: 'who', id: 'graduate', ar: 'الدراسات العليا', en: 'Postgraduate studies' },
 
     { list: 'stage', id: 'g11', ar: 'الصف الثاني الثانوي', en: 'Grade 11' },
     { list: 'stage', id: 'g12', ar: 'الصف الثالث الثانوي', en: 'Grade 12' },
@@ -300,6 +307,12 @@ window.RIHLA_DEFAULTS = {
     { list: 'stage', id: 'uni_student', ar: 'طالب جامعي حاليًا', en: 'Currently at university' },
     { list: 'stage', id: 'bachelor', ar: 'حاصل على البكالوريوس', en: "I hold a bachelor's" },
     { list: 'stage', id: 'master', ar: 'حاصل على الماجستير', en: "I hold a master's" },
+
+    { list: 'system', id: 'arabic', ar: 'شهادة ثانوية عربية', en: 'Arabic secondary certificate' },
+    { list: 'system', id: 'american', ar: 'الدبلوما الأمريكية (American Diploma)', en: 'American Diploma' },
+    { list: 'system', id: 'ig', ar: 'البريطانية (IGCSE / A-Level)', en: 'British (IGCSE / A-Level)' },
+    { list: 'system', id: 'ib', ar: 'البكالوريا الدولية (IB)', en: 'International Baccalaureate (IB)' },
+    { list: 'system', id: 'other', ar: 'نظام آخر', en: 'Other' },
 
     { list: 'degree', id: 'foundation', ar: 'سنة تأسيسية', en: 'Foundation' },
     { list: 'degree', id: 'diploma', ar: 'دبلوم', en: 'Diploma' },
@@ -346,7 +359,7 @@ window.RIHLA_DEFAULTS = {
     { list: 'city', id: 'eastern', ar: 'الدمام والخبر', en: 'Dammam & Khobar' },
     { list: 'city', id: 'qassim', ar: 'القصيم', en: 'Qassim' },
     { list: 'city', id: 'south', ar: 'أبها وخميس مشيط', en: 'Abha & Khamis' },
-    { list: 'city', id: 'other', ar: 'مدينة أخرى', en: 'Other' },
+    { list: 'city', id: 'other', ar: 'مدينة أخرى أو خارج السعودية', en: 'Another city or outside Saudi Arabia' },
 
     { list: 'mode', id: 'office', ar: 'زيارة المكتب', en: 'Office visit' },
     { list: 'mode', id: 'online', ar: 'اجتماع عبر الإنترنت', en: 'Online meeting' },
@@ -359,8 +372,18 @@ window.RIHLA_DEFAULTS = {
   ],
 
   team: [
-    { id: 'ahmad', name_ar: 'أحمد علي', name_en: 'Ahmad Ali', role_ar: 'مستشار تعليمي', role_en: 'Education consultant', whatsapp: '966590873178', email: 'ahmad.a.asalia@gmail.com', receives_leads: true },
-    { id: 'asmaa', name_ar: 'أسماء علي', name_en: 'Asmaa Ali', role_ar: 'مستشارة تعليمية', role_en: 'Education consultant', whatsapp: '', email: '', receives_leads: true },
-    { id: 'ashraf', name_ar: 'م. أشرف', name_en: 'Eng. Ashraf', role_ar: 'المدير', role_en: 'Manager', whatsapp: '', email: '', receives_leads: false }
+    { id: 'ahmad', name_ar: 'أحمد أحمد', name_en: 'Ahmad Ahmad', role_ar: 'مستشار تعليمي', role_en: 'Education consultant', whatsapp: '966590873178', email: 'ahmad.a.asalia@gmail.com', receives_leads: true },
+    { id: 'asmaa', name_ar: 'أسماء علي', name_en: 'Asmaa Ali', role_ar: 'مستشارة تعليمية', role_en: 'Education consultant', whatsapp: '', email: '', receives_leads: true }
+  ],
+
+  /* Real photos from Pioneer's own site. Replace or add links in the sheet's Gallery tab. */
+  gallery: [
+    { id: 'airport', src: 'https://pioneer4ss.com/wp-content/uploads/2025/04/Untitled-design-8.jpg', caption_ar: 'استقبال الطلاب في مطار كوالالمبور', caption_en: 'Welcoming students at Kuala Lumpur airport' },
+    { id: 'ceremony', src: 'https://pioneer4ss.com/wp-content/uploads/2025/04/4.jpg', caption_ar: 'حفل Pioneer لطلابنا في ماليزيا', caption_en: 'Pioneer ceremony for our students in Malaysia' },
+    { id: 'newcastle', src: 'https://pioneer4ss.com/wp-content/uploads/2025/04/1-1.jpg', caption_ar: 'زيارة جامعة نيوكاسل ماليزيا', caption_en: 'Visiting Newcastle University Malaysia' },
+    { id: 'fair', src: 'https://pioneer4ss.com/wp-content/uploads/2025/04/6.jpg', caption_ar: 'طلاب Pioneer في معرض تعليمي', caption_en: 'Pioneer students at an education fair' },
+    { id: 'tournament', src: 'https://pioneer4ss.com/wp-content/uploads/2025/04/3-1.jpg', caption_ar: 'تكريم الفائزين في بطولة الطلاب', caption_en: 'Honouring the winners of a student tournament' },
+    { id: 'award', src: 'https://pioneer4ss.com/wp-content/uploads/2025/04/2-1.jpg', caption_ar: 'فريق Pioneer في حفل تكريم', caption_en: 'The Pioneer team at an awards event' },
+    { id: 'note', src: 'https://pioneer4ss.com/wp-content/uploads/2025/04/5.jpg', caption_ar: 'رسالة شكر من أحد طلابنا', caption_en: 'A thank-you note from one of our students' }
   ]
 };
