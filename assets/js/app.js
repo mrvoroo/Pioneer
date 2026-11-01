@@ -216,7 +216,7 @@ function galleryHtml() {
   if (!pics.length) return '';
   // A cylinder needs enough cards to close the ring, so short lists repeat.
   const ring = []; while (ring.length < 10) ring.push(...pics);
-  const cards = ring.map((g, i) => `<figure class="cyl__card" style="--i:${i}" data-photo="${pics.indexOf(g)}"><img src="${esc(g.src)}" alt="${esc(L(g, 'caption'))}" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption>${esc(L(g, 'caption'))}</figcaption></figure>`).join('');
+  const cards = ring.map((g, i) => `<figure class="cyl__card" style="--i:${i}" data-photo="${pics.indexOf(g)}"><img src="${esc(g.src)}" alt="${esc(L(g, 'caption'))}" loading="eager" fetchpriority="low" decoding="async" referrerpolicy="no-referrer"><figcaption>${esc(L(g, 'caption'))}</figcaption></figure>`).join('');
   return `<section class="scene scene--gallery" id="gallery" data-scene="gallery">
     <div class="wrap"><div class="gallery__head reveal">${kicker('g_kicker')}<h2>${esc(t('g_title'))}</h2><p>${esc(t('g_body'))}</p></div></div>
     <div class="cyl" role="region" aria-label="${esc(t('g_title'))}"><div class="cyl__ring" style="--n:${ring.length}">${cards}</div></div>
