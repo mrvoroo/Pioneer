@@ -1,5 +1,5 @@
 // Rihla Malaysia: page rendering, the scroll story, and the lead form.
-import { createWorld } from './world.js';
+import { createWorld } from './world.js?v=20261101b';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];

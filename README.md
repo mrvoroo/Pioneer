@@ -27,3 +27,7 @@ python -m http.server 8080
 ```
 
 Then open http://localhost:8080.
+
+## Updating the live site
+
+GitHub Pages lets browsers cache files for up to 10 minutes. After changing CSS or JS, bump the `?v=` value on the `<link>`/`<script>` tags in `index.html` and on the `world.js` import at the top of `assets/js/app.js`, so visitors get the new files right away.
